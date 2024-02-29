@@ -25,47 +25,26 @@ return {
 			local lualine = require("lualine")
 			lualine.setup({
 				options = {
-					theme = "nightfly",
+					theme = "catppuccin",
 				},
 			})
 		end,
 	},
 	{
-		"rcarriga/nvim-notify",
-		config = function()
-			require("notify").setup({
-				background_colour = "FloatShadow",
-				timeout = 1000,
-				render = "compact",
-				stages = "fade",
-			})
-		end,
-	},
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"hrsh7th/nvim-cmp",
-			"rcarriga/nvim-notify",
+		"folke/zen-mode.nvim",
+		opts = {
+			window = {
+				backdrop = 0.3,
+				width = 200,
+			},
 		},
 		config = function()
-			require("noice").setup({
-				lsp = {
-					override = {
-						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-						["vim.lsp.util.stylize_markdown"] = true,
-						["cmp.entry.get_documentation"] = true,
-					},
-				},
-				presets = {
-					bottom_search = true,
-					command_palette = true,
-					long_message_to_split = true,
-					inc_rename = false,
-					lsp_doc_border = false,
-				},
-			})
+			vim.keymap.set(
+				{ "n", "v" },
+				"<leader>z",
+				":ZenMode<cr>",
+				{ noremap = true, silent = true, desc = "Zen Mode" }
+			)
 		end,
 	},
 }
