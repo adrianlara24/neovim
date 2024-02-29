@@ -1,5 +1,5 @@
 return {
-  --TELESCOPE
+	--TELESCOPE
 	{
 		"nvim-telescope/telescope-file-browser.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim" },
