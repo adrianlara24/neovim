@@ -3,30 +3,31 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		event = { "BufReadPre", "BufNewFile" },
+		-- event = { "BufReadPre", "BufNewFile" },
+		event = "VeryLazy",
 		config = function()
-			local treesitter = require("nvim-treesitter")
+			local treesitter = require("nvim-treesitter.configs")
+
 			treesitter.setup({
-				highlight = { enable = true },
-				indent = { enable = true },
-				auto_install = true,
 				ensure_installed = {
+					"angular",
 					"html",
-					"json",
+					"css",
+					"scss",
 					"javascript",
 					"typescript",
-					"tsx",
-					"yaml",
-					"css",
-					"markdown",
+					"json",
 					"lua",
-					"vim",
-					"vimdocs",
-					"dockerfile",
-					"gitignore",
-					"angular",
 					"c_sharp",
+					"rust",
 				},
+				highlight = {
+					enable = true,
+				},
+				indent = {
+					enable = true,
+				},
+				auto_install = true,
 			})
 		end,
 	},
@@ -72,6 +73,8 @@ return {
 					{ name = "path" },
 				}),
 			})
+
+			luasnip.filetype_extend("angular", { "html" })
 		end,
 	},
 
@@ -146,7 +149,7 @@ return {
 				--keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
 				--opts.desc = "LSP show buffer diagnostic"
-				--keymap.set("n", "<leader>", "<cmd>Telescope diagnostic bufnr=0<cr>", opts)
+				--keymap.set("n", "<leader>[d", "<cmd>Telescope diagnostic bufnr=0<cr>", opts)
 
 				--opts.desc = "LSP show line diagnostic"
 				--keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
@@ -163,7 +166,11 @@ return {
 			lspconfig["html"].setup({ capabilities = capabilities, on_attach = on_attach })
 			lspconfig["tsserver"].setup({ capabilities = capabilities, on_attach = on_attach })
 			lspconfig["tailwindcss"].setup({ capabilities = capabilities, on_attach = on_attach })
-			lspconfig["angularls"].setup({ capabilities = capabilities, on_attach = on_attach })
+			lspconfig.angularls.setup({
+				capabilities = capabilities,
+				on_attach = on_attach,
+				filetypes = { "angular", "html", "typescript", "typescriptreact" },
+			})
 			lspconfig["cssls"].setup({
 				capabilities = capabilities,
 				on_attach = on_attach,
@@ -201,7 +208,9 @@ return {
 			null_ls.setup({
 				sources = {
 					null_ls.builtins.formatting.stylua,
-					null_ls.builtins.formatting.prettierd,
+					null_ls.builtins.formatting.prettierd.with({
+						extra_filetypes = { "angular" },
+					}),
 				},
 			})
 		end,

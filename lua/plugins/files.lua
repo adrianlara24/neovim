@@ -113,7 +113,9 @@ return {
 		config = function()
 			local config = require("oil")
 			config.setup({
-				lsp_rename_autosave = true,
+        lsp_file_methods = {
+          autosave_changes = true,
+        },
 				view_options = {
 					show_hidden = true,
 				},
