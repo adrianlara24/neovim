@@ -1,22 +1,29 @@
 return {
 	--TELESCOPE
 	{
-		"nvim-telescope/telescope-file-browser.nvim",
-		dependencies = { "nvim-telescope/telescope.nvim" },
-	},
-	{
 		"nvim-telescope/telescope.nvim",
-		event = "VeryLazy",
+		event = "VimEnter",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons",
+			"nvim-telescope/telescope-file-browser.nvim",
+			"nvim-telescope/telescope-ui-select.nvim",
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "make",
+				cond = function()
+					return vim.fn.executable("make") == 1
+				end,
+			},
+			{
+				"nvim-tree/nvim-web-devicons",
+				enabled = vim.g.have_nerd_font,
+			},
 		},
 		config = function()
-			local telescope = require("telescope")
 			local telescope_actions = require("telescope.actions")
-			local keymap = vim.api.nvim_set_keymap
 
-			telescope.setup({
+			require("telescope").setup({
 				defaults = {
 					layout_strategy = "vertical",
 					path_display = { "absolute" },
@@ -27,85 +34,53 @@ return {
 						},
 					},
 				},
-				pickers = {
-					find_files = {
-						previewer = false,
-					},
-					buffers = {
-						previewer = false,
-						path_display = { "absolute" },
-					},
-					oldfiles = {
-						previewer = false,
-					},
-					file_browser = {
-						layout_strategy = "horizontal",
-					},
-				},
+				-- pickers = {
+				-- 	find_files = {
+				-- 		previewer = false,
+				-- 	},
+				-- 	buffers = {
+				-- 		previewer = false,
+				-- 		path_display = { "absolute" },
+				-- 	},
+				-- 	oldfiles = {
+				-- 		previewer = false,
+				-- 	},
+				-- 	file_browser = {
+				-- 		layout_strategy = "horizontal",
+				-- 	},
+				-- },
 				extensions = {
 					file_browser = {
-						-- theme = "ivy",
 						hijack_netrw = true,
+					},
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown(),
 					},
 				},
 			})
 
-			require("telescope").load_extension("file_browser")
+			pcall(require("telescope").load_extension, "file_browser")
+			pcall(require("telescope").load_extension, "fzf")
+			pcall(require("telescope").load_extension, "ui-select")
 
-			keymap(
+			local builtin = require("telescope.builtin")
+			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
+			vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
+			vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
+			vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
+			vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
+			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+			vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
+			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
+			vim.keymap.set("n", "<leader>sb", ":Telescope file_browser<cr>", { desc = "[F]ile Browser" })
+			vim.keymap.set(
 				"n",
-				"<leader><leader>",
-				"<cmd>Telescope find_files<cr>",
-				{ noremap = true, silent = true, desc = "TS find file" }
-			)
-			keymap(
-				"n",
-				"<leader>ft",
-				"<cmd>Telescope buffers<cr>",
-				{ noremap = true, silent = true, desc = "TS find open file" }
-			)
-			keymap(
-				"n",
-				"<leader>fr",
-				"<cmd>Telescope oldfiles<cr>",
-				{ noremap = true, silent = true, desc = "TS view old files" }
-			)
-			keymap(
-				"n",
-				"<leader>fg",
-				"<cmd>Telescope live_grep<cr>",
-				{ noremap = true, silent = true, desc = "TS grep" }
-			)
-			keymap(
-				"n",
-				"<leader>fh",
-				"<cmd>Telescope help_tags<cr>",
-				{ noremap = true, silent = true, desc = "TS help tags" }
-			)
-			keymap(
-				"n",
-				"<leader>fc",
-				"<cmd>Telescope colorscheme<cr>",
-				{ noremap = true, silent = true, desc = "TS color schemes" }
-			)
-			keymap(
-				"n",
-				"<leader>fk",
-				"<cmd>Telescope keymaps<cr>",
-				{ noremap = true, silent = true, desc = "TS keymaps" }
-			)
-			keymap(
-				"n",
-				"<leader>fb",
-				":Telescope file_browser<cr>",
-				{ noremap = true, silent = true, desc = "TS file browser" }
-			)
-			keymap(
-				"n",
-				"<leader>ff",
+				"<leader>ss",
 				":Telescope file_browser path=%:p:h select_buffer=true<cr>",
-				{ noremap = true, silent = true, desc = "TS file browser in folder" }
+				{ desc = "[F]ile Browser Folder" }
 			)
+			vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 		end,
 	},
 	{
@@ -113,9 +88,9 @@ return {
 		config = function()
 			local config = require("oil")
 			config.setup({
-        lsp_file_methods = {
-          autosave_changes = true,
-        },
+				lsp_file_methods = {
+					autosave_changes = true,
+				},
 				view_options = {
 					show_hidden = true,
 				},
@@ -125,12 +100,15 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
-		config = function()
-			require("gitsigns").setup({
-				current_line_blame = true,
-				current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
-			})
-		end,
+		opts = {
+			signs = {
+				add = { text = "+" },
+				change = { text = "~" },
+				delete = { text = "_" },
+				topdelete = { text = "‾" },
+				changedelete = { text = "~" },
+			},
+		},
 	},
 	{
 		"kdheepak/lazygit.nvim",

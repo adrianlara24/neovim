@@ -3,12 +3,9 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		-- event = { "BufReadPre", "BufNewFile" },
-		event = "VeryLazy",
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
-			local treesitter = require("nvim-treesitter.configs")
-
-			treesitter.setup({
+			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
 					"angular",
 					"html",
@@ -32,185 +29,144 @@ return {
 		end,
 	},
 
-	--CMP
+	--LSP
 	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			{ "j-hui/fidget.nvim", opts = {} },
+		},
+		config = function()
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+				callback = function(event)
+					local map = function(keys, func, desc)
+						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+					end
+					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+					map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
+					map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+					map(
+						"<leader>ws",
+						require("telescope.builtin").lsp_dynamic_workspace_symbols,
+						"[W]orkspace [S]ymbols"
+					)
+					-- map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+					map("<leader>cf", vim.lsp.buf.format, "[C]ode [F]ormat")
+					map("K", vim.lsp.buf.hover, "[H]over [D]ocumentation")
+					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+				end,
+			})
+
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+
+			local servers = {
+				lua_ls = {
+					settings = {
+						Lua = {
+							runtime = { version = "LuaJIT" },
+							workspace = {
+								checkThirdParty = false,
+								library = {
+									"${3rd}/luv/library",
+									unpack(vim.api.nvim_get_runtime_file("", true)),
+								},
+							},
+							completion = {
+								callSnippet = "Replace",
+							},
+						},
+					},
+				},
+				html = {},
+				cssls = {},
+				emmet_ls = {},
+				tailwindcss = {},
+				tsserver = {},
+				angularls = {},
+				omnisharp = {},
+			}
+
+			require("mason").setup({})
+
+			local ensure_installed = vim.tbl_keys(servers or {})
+			vim.list_extend(ensure_installed, {
+				"stylua",
+				"prettierd",
+			})
+
+			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+			require("mason-lspconfig").setup({
+				handlers = {
+					function(server_name)
+						local server = servers[server_name] or {}
+						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+						require("lspconfig")[server_name].setup(server)
+					end,
+				},
+			})
+		end,
+	},
+	{
+		--CMP
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
 		dependencies = {
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"L3MON4D3/LuaSnip",
+			{
+				"L3MON4D3/LuaSnip",
+				build = (function()
+					if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
+						return
+					end
+					return "make install_jsregexp"
+				end)(),
+			},
 			"saadparwaiz1/cmp_luasnip",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-path",
 			"rafamadriz/friendly-snippets",
 		},
 		config = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
-			require("luasnip.loaders.from_vscode").lazy_load()
+			luasnip.config.setup({})
 
 			cmp.setup({
-				completion = {
-					completeopt = "menu,menuone,preview,noselect",
-				},
 				snippet = {
 					expand = function(args)
 						luasnip.lsp_expand(args.body)
 					end,
 				},
+				completion = { completeopt = "menu,menuone,noinsert" },
+
 				mapping = cmp.mapping.preset.insert({
-					["<c-k>"] = cmp.mapping.select_prev_item(),
-					["<c-j>"] = cmp.mapping.select_next_item(),
-					["<c-b>"] = cmp.mapping.scroll_docs(-4),
-					["<c-f>"] = cmp.mapping.scroll_docs(4),
-					["<c-space>"] = cmp.mapping.complete(),
-					["<c-e>"] = cmp.mapping.abort(),
-					["<cr>"] = cmp.mapping.confirm({ select = false }),
+					["<C-n>"] = cmp.mapping.select_next_item(),
+					["<C-p>"] = cmp.mapping.select_prev_item(),
+					["<C-Space>"] = cmp.mapping.confirm({ select = true }),
+					--["<C-Space>"] = cmp.mapping.complete({}),
+					["<C-l>"] = cmp.mapping(function()
+						if luasnip.expand_or_locally_jumpable() then
+							luasnip.expand_or_jump()
+						end
+					end, { "i", "s" }),
+					["<C-h>"] = cmp.mapping(function()
+						if luasnip.locally_jumpable(-1) then
+							luasnip.jump(-1)
+						end
+					end, { "i", "s" }),
 				}),
-				sources = cmp.config.sources({
+				sources = {
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
-					{ name = "buffer" },
 					{ name = "path" },
-				}),
-			})
-
-			luasnip.filetype_extend("angular", { "html" })
-		end,
-	},
-
-	--MASON
-	{
-		"williamboman/mason.nvim",
-		dependencies = {
-			"williamboman/mason-lspconfig.nvim",
-		},
-		config = function()
-			local mason = require("mason")
-			local mason_lspconfig = require("mason-lspconfig")
-
-			mason.setup({})
-			mason_lspconfig.setup({
-				ensure_installed = {
-					"tsserver",
-					"angularls",
-					"html",
-					"cssls",
-					"tailwindcss",
-					"emmet_ls",
-					"lua_ls",
-					"omnisharp_mono",
-					-- "csharp_ls",
-				},
-				automatic_installation = true,
-			})
-			vim.keymap.set(
-				"n",
-				"<leader>m",
-				":Mason<cr>",
-				{ noremap = true, silent = true, desc = "MASON open config" }
-			)
-		end,
-	},
-
-	--LSP
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			{ "antosha417/nvim-lsp-file-operations", config = true },
-		},
-		event = { "BufReadPre", "BufNewFile" },
-		config = function()
-			local lspconfig = require("lspconfig")
-			local cmp_nvim_lsp = require("cmp_nvim_lsp")
-			local keymap = vim.keymap
-			local opts = { noremap = true, silent = true }
-			local on_attach = function(_, bufnr)
-				opts.buffer = bufnr
-
-				opts.desc = "LSP format"
-				keymap.set({ "n", "v" }, "<leader>lf", vim.lsp.buf.format, opts)
-
-				opts.desc = "LSP show lsp references"
-				keymap.set("n", "<leader>lr", "<cmd>Telescope lsp_references<cr>", opts)
-
-				opts.desc = "LSP go to declaration"
-				keymap.set("n", "<leader>lD", vim.lsp.buf.declaration, opts)
-
-				opts.desc = "LSP go to definitions"
-				keymap.set("n", "<leader>ld", "<cmd>Telescope lsp_definitions<cr>", opts)
-
-				opts.desc = "LSP show implementations"
-				keymap.set("n", "<leader>li", "<cmd>Telescope lsp_implementations<cr>", opts)
-
-				opts.desc = "LSP code actions"
-				keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_actions, opts)
-
-				--opts.desc = "LSP rename"
-				--keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-
-				--opts.desc = "LSP show buffer diagnostic"
-				--keymap.set("n", "<leader>[d", "<cmd>Telescope diagnostic bufnr=0<cr>", opts)
-
-				--opts.desc = "LSP show line diagnostic"
-				--keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
-
-				opts.desc = "LSP info"
-				keymap.set("n", "<leader>lI", ":LspInfo<cr>", opts)
-
-				opts.desc = "LSP restart"
-				keymap.set("n", "<leader>ll", ":LspRestart<cr>", opts)
-			end
-
-			local capabilities = cmp_nvim_lsp.default_capabilities()
-
-			lspconfig["html"].setup({ capabilities = capabilities, on_attach = on_attach })
-			lspconfig["tsserver"].setup({ capabilities = capabilities, on_attach = on_attach })
-			lspconfig["tailwindcss"].setup({ capabilities = capabilities, on_attach = on_attach })
-			lspconfig.omnisharp.setup({ capabilities = capabilities, on_attach = on_attach })
-			lspconfig.angularls.setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-				filetypes = { "angular", "html", "typescript", "typescriptreact" },
-			})
-			lspconfig["cssls"].setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-				filetypes = { "html", "typescript", "javascript", "css", "scss" },
-			})
-			lspconfig["emmet_ls"].setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-				filetypes = { "html", "typescript", "javascript", "css", "scss" },
-			})
-			lspconfig["lua_ls"].setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-				settings = {
-					Lua = {
-						diagnostics = { globals = { "vim" } },
-						workspace = {
-							libary = {
-								[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-								[vim.fn.stdpath("config") .. "/lua"] = true,
-							},
-						},
-					},
-				},
-			})
-			lspconfig["csharp_ls"].setup({ capabilities = capabilities, on_attach = on_attach })
-		end,
-	},
-
-	--NONE_LS
-	{
-		"nvimtools/none-ls.nvim",
-		config = function()
-			local null_ls = require("null-ls")
-			null_ls.setup({
-				sources = {
-					null_ls.builtins.formatting.stylua,
-					null_ls.builtins.formatting.prettierd,
+					{ name = "buffer" },
 				},
 			})
 		end,
