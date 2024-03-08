@@ -62,11 +62,7 @@ return {
 			local mappings_utils = require("renamer.mappings.utils")
 			renamer.setup({
 				mappings = {
-					["<c-j>"] = mappings_utils.set_cursor_to_start,
-					["<c-k>"] = mappings_utils.set_cursor_to_end,
-					["<c-l>"] = mappings_utils.set_cursor_to_word_end,
-					["<c-h>"] = mappings_utils.set_cursor_to_word_start,
-					["<c-c>"] = mappings_utils.clear_line,
+					["<c-d>"] = mappings_utils.clear_line,
 				},
 			})
 

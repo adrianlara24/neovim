@@ -34,21 +34,21 @@ return {
 						},
 					},
 				},
-				-- pickers = {
-				-- 	find_files = {
-				-- 		previewer = false,
-				-- 	},
-				-- 	buffers = {
-				-- 		previewer = false,
-				-- 		path_display = { "absolute" },
-				-- 	},
-				-- 	oldfiles = {
-				-- 		previewer = false,
-				-- 	},
-				-- 	file_browser = {
-				-- 		layout_strategy = "horizontal",
-				-- 	},
-				-- },
+				pickers = {
+					find_files = {
+						previewer = false,
+					},
+					buffers = {
+						previewer = false,
+						path_display = { "absolute" },
+					},
+					oldfiles = {
+						previewer = false,
+					},
+					file_browser = {
+						layout_strategy = "horizontal",
+					},
+				},
 				extensions = {
 					file_browser = {
 						hijack_netrw = true,
