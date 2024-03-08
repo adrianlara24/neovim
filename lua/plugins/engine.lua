@@ -98,7 +98,8 @@ return {
 					"tailwindcss",
 					"emmet_ls",
 					"lua_ls",
-					"csharp_ls",
+					"omnisharp_mono",
+					-- "csharp_ls",
 				},
 				automatic_installation = true,
 			})
@@ -166,6 +167,7 @@ return {
 			lspconfig["html"].setup({ capabilities = capabilities, on_attach = on_attach })
 			lspconfig["tsserver"].setup({ capabilities = capabilities, on_attach = on_attach })
 			lspconfig["tailwindcss"].setup({ capabilities = capabilities, on_attach = on_attach })
+			lspconfig.omnisharp.setup({ capabilities = capabilities, on_attach = on_attach })
 			lspconfig.angularls.setup({
 				capabilities = capabilities,
 				on_attach = on_attach,
@@ -208,9 +210,7 @@ return {
 			null_ls.setup({
 				sources = {
 					null_ls.builtins.formatting.stylua,
-					null_ls.builtins.formatting.prettierd.with({
-						extra_filetypes = { "angular" },
-					}),
+					null_ls.builtins.formatting.prettierd,
 				},
 			})
 		end,
