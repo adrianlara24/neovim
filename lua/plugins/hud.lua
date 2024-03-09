@@ -6,6 +6,7 @@ return {
 	},
 	{
 		"romgrk/barbar.nvim",
+		event = "InsertEnter",
 		dependencies = {
 			"lewis6991/gitsigns.nvim",
 			"nvim-tree/nvim-web-devicons",
@@ -19,6 +20,7 @@ return {
 	},
 	{
 		"nvim-lualine/lualine.nvim",
+		event = "InsertEnter",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("lualine").setup({
