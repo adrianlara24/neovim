@@ -21,8 +21,6 @@ return {
 			},
 		},
 		config = function()
-			local telescope_actions = require("telescope.actions")
-
 			require("telescope").setup({
 				defaults = {
 					layout_strategy = "center",
@@ -36,18 +34,18 @@ return {
 					sorting_strategy = "ascending",
 					mappings = {
 						i = {
-							["<c-k>"] = telescope_actions.move_selection_previous,
-							["<c-j>"] = telescope_actions.move_selection_next,
 							["<c-p>"] = require("telescope.actions.layout").toggle_preview,
-							["<a-j>"] = telescope_actions.preview_scrolling_down,
-							["<a-k>"] = telescope_actions.preview_scrolling_up,
-							["<space>"] = telescope_actions.select_default,
+							["<c-k>"] = require("telescope.actions").move_selection_previous,
+							["<c-j>"] = require("telescope.actions").move_selection_next,
+							["<a-j>"] = require("telescope.actions").preview_scrolling_down,
+							["<a-k>"] = require("telescope.actions").preview_scrolling_up,
+							["<space>"] = require("telescope.actions").select_default,
 						},
 						n = {
 							["<c-p>"] = require("telescope.actions.layout").toggle_preview,
-							["<a-j>"] = telescope_actions.preview_scrolling_down,
-							["<a-k>"] = telescope_actions.preview_scrolling_up,
-							["<space>"] = telescope_actions.select_default,
+							["<a-j>"] = require("telescope.actions").preview_scrolling_down,
+							["<a-k>"] = require("telescope.actions").preview_scrolling_up,
+							["<space>"] = require("telescope.actions").select_default,
 						},
 					},
 					preview = {
@@ -96,8 +94,7 @@ return {
 	{
 		"stevearc/oil.nvim",
 		config = function()
-			local config = require("oil")
-			config.setup({
+			require("oil").setup({
 				lsp_file_methods = {
 					autosave_changes = true,
 				},
