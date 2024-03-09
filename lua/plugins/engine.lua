@@ -17,6 +17,7 @@ return {
 					"lua",
 					"c_sharp",
 					"rust",
+					"sql",
 				},
 				highlight = {
 					enable = true,
@@ -35,7 +36,6 @@ return {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
-			{ "j-hui/fidget.nvim", opts = {} },
 		},
 		config = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -87,6 +87,7 @@ return {
 				tsserver = {},
 				angularls = {},
 				omnisharp = {},
+				sqlls = {},
 			}
 
 			require("mason").setup({})
@@ -95,6 +96,7 @@ return {
 			vim.list_extend(ensure_installed, {
 				"stylua",
 				"prettierd",
+				"sql-formatter",
 			})
 
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
@@ -135,6 +137,8 @@ return {
 			local luasnip = require("luasnip")
 			luasnip.config.setup({})
 
+			require("luasnip.loaders.from_vscode").lazy_load()
+
 			cmp.setup({
 				snippet = {
 					expand = function(args)
@@ -163,6 +167,7 @@ return {
 					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "buffer" },
+					{ name = "completion-nvim" },
 				},
 			})
 		end,

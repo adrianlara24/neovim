@@ -15,15 +15,13 @@ return {
 		end,
 		opts = {
 			animation = true,
-			insert_at_start = false,
 		},
 	},
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			local lualine = require("lualine")
-			lualine.setup({
+			require("lualine").setup({
 				options = {
 					theme = "catppuccin",
 				},
@@ -34,8 +32,8 @@ return {
 		"folke/zen-mode.nvim",
 		opts = {
 			window = {
-				backdrop = 0.3,
-				width = 200,
+				backdrop = 0.8,
+				width = 400,
 			},
 		},
 		config = function()
