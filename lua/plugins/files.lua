@@ -8,6 +8,7 @@ return {
 			"nvim-tree/nvim-web-devicons",
 			"nvim-telescope/telescope-file-browser.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
+			"jonarrien/telescope-cmdline.nvim",
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = "make",
@@ -20,11 +21,14 @@ return {
 				enabled = vim.g.have_nerd_font,
 			},
 		},
+		keys = {
+			{ ":", "<cmd>Telescope cmdline<cr>", desc = "[C]md [L]ine" },
+		},
 		config = function()
 			require("telescope").setup({
 				defaults = {
 					layout_strategy = "center",
-					path_display = { "absolute" },
+					path_display = { "smart" },
 					layout_config = {
 						mirror = true,
 						horizontal = {
@@ -39,7 +43,6 @@ return {
 							["<c-j>"] = require("telescope.actions").move_selection_next,
 							["<a-j>"] = require("telescope.actions").preview_scrolling_down,
 							["<a-k>"] = require("telescope.actions").preview_scrolling_up,
-							["<space>"] = require("telescope.actions").select_default,
 						},
 						n = {
 							["<c-p>"] = require("telescope.actions.layout").toggle_preview,
@@ -66,6 +69,13 @@ return {
 							},
 						},
 					},
+					cmdline = {
+						picker = {
+							layout_config = {
+								height = 12,
+							},
+						},
+					},
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown(),
 					},
@@ -75,6 +85,7 @@ return {
 			pcall(require("telescope").load_extension, "file_browser")
 			pcall(require("telescope").load_extension, "fzf")
 			pcall(require("telescope").load_extension, "ui-select")
+			pcall(require("telescope").load_extension("cmdline"))
 
 			local file_browser_cmd = ":Telescope file_browser path=%:p:h select_buffer=true<cr>"
 			local builtin = require("telescope.builtin")

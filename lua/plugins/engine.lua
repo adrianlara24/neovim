@@ -7,17 +7,19 @@ return {
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
+					"vimdoc",
 					"angular",
 					"html",
 					"css",
 					"scss",
 					"javascript",
 					"typescript",
-					"json",
 					"lua",
 					"c_sharp",
 					"rust",
 					"sql",
+					"json",
+					"http",
 				},
 				highlight = {
 					enable = true,

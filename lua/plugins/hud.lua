@@ -6,13 +6,13 @@ return {
 	},
 	{
 		"romgrk/barbar.nvim",
-		event = "InsertEnter",
+		event = "BufReadPre",
 		dependencies = {
 			"lewis6991/gitsigns.nvim",
 			"nvim-tree/nvim-web-devicons",
 		},
 		init = function()
-			vim.g.barbar_auto_setup = false
+			vim.g.barbar_auto_setup = true
 		end,
 		opts = {
 			animation = true,
@@ -20,15 +20,13 @@ return {
 	},
 	{
 		"nvim-lualine/lualine.nvim",
-		event = "InsertEnter",
+		event = "BufReadPre",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("lualine").setup({
-				options = {
-					theme = "catppuccin",
-				},
-			})
-		end,
+		opts = {
+			options = {
+				theme = "catppuccin",
+			},
+		},
 	},
 	{
 		"folke/zen-mode.nvim",
@@ -67,6 +65,17 @@ return {
 					vim.keymap.set("t", "<a-l>", [[<Cmd>wincmd l<CR>]], opts)
 					vim.keymap.set("t", "<a-w>", [[<C-\><C-n><C-w>]], opts)
 				end,
+			})
+		end,
+	},
+	{
+		"vigoux/notifier.nvim",
+		config = function()
+			require("notifier").setup({
+				components = {
+					"nvim",
+					"lsp",
+				},
 			})
 		end,
 	},

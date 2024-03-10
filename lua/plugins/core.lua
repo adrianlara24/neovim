@@ -16,13 +16,4 @@ return {
 			vim.cmd.colorscheme("catppuccin")
 		end,
 	},
-	{
-		"eoh-bse/minintro.nvim",
-		config = true,
-		lazy = false,
-		opts = {
-			color = "#ffffff",
-			always_show_bufferline = false,
-		},
-	},
 }
