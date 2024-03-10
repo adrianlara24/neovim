@@ -58,6 +58,10 @@ return {
 				extensions = {
 					file_browser = {
 						initial_mode = "normal",
+						file_ignore_patterns = {
+							--TODO hide .. folder
+							-- "%./.*",
+						},
 						mappings = {
 							n = {
 								["<c-b>"] = require("telescope._extensions.file_browser.actions").goto_parent_dir,

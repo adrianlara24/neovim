@@ -15,7 +15,7 @@ vim.opt.hlsearch = true
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.o.number = true
-vim.o.relativenumber = true
+vim.o.relativenumber = false
 
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
