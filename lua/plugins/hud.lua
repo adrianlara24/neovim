@@ -1,12 +1,11 @@
 return {
 	{
 		"stevearc/dressing.nvim",
-		event = "VeryLazy",
 		config = true,
 	},
 	{
 		"romgrk/barbar.nvim",
-		event = "BufReadPre",
+	  event = "BufReadPre",
 		dependencies = {
 			"lewis6991/gitsigns.nvim",
 			"nvim-tree/nvim-web-devicons",
