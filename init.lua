@@ -33,7 +33,6 @@ map("n", "<A-h>", "<C-w>h", opts)
 map("n", "<A-j>", "<C-w>j", opts)
 map("n", "<A-k>", "<C-w>k", opts)
 map("n", "<A-l>", "<C-w>l", opts)
-map("n", "<A-x>", ":q<CR>", opts)
 vim.keymap.set({ "n", "v" }, "<A-c>", ":BufferClose<cr>", {})
 
 vim.api.nvim_create_autocmd("TextYankPost", {

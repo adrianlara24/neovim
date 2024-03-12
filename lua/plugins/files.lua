@@ -31,6 +31,10 @@ return {
 						horizontal = {
 							promp_position = "bottom",
 						},
+						center = {
+							prompt_position = "top",
+							width = 120,
+						},
 					},
 					sorting_strategy = "ascending",
 					mappings = {
