@@ -17,6 +17,16 @@ return {
 		end,
 	},
 	{
+		"rmagatti/auto-session",
+		config = true,
+	},
+	{
+		"numtostr/BufOnly.nvim",
+		config = function()
+			vim.keymap.set("n", "<c-w>", ":BufOnly<cr>", {})
+		end,
+	},
+	{
 		"kdheepak/lazygit.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",

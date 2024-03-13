@@ -1,6 +1,8 @@
 {
+  "BufOnly.nvim": { "branch": "master", "commit": "30579c2851743b00c4547c324a16f2c1cfa5a41c" },
   "Comment.nvim": { "branch": "master", "commit": "0236521ea582747b58869cb72f70ccfa967d2e89" },
   "LuaSnip": { "branch": "master", "commit": "a7a4b4682c4b3e2ba82b82a4e6e5f5a0e79dec32" },
+  "auto-session": { "branch": "main", "commit": "29a8c77a0579636d5520aebd38bdbc2e6079f2f5" },
   "autoclose.nvim": { "branch": "main", "commit": "dc42806540dcf448ecb2bad6b67204410cfbe629" },
   "barbar.nvim": { "branch": "master", "commit": "1d6b1386abe97d1d8cba47eb9afa8a9f2d1bbe66" },
   "catppuccin": { "branch": "main", "commit": "045e3499d9ec8d84635fb08877ae44fd33f6a38d" },
