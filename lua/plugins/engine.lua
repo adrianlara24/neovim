@@ -189,6 +189,14 @@ return {
 						},
 					},
 				},
+				tsserver = {},
+				angularls = {
+					filetypes = {
+						"html",
+						"javascript",
+						"typescript",
+					},
+				},
 				html = {
 					filetypes = {
 						"css",
@@ -220,14 +228,6 @@ return {
 					},
 				},
 				tailwindcss = {},
-				tsserver = {},
-				angularls = {
-					filetypes = {
-						"html",
-						"javascript",
-						"typescript",
-					},
-				},
 				omnisharp = {},
 				sqlls = {},
 			}
@@ -302,10 +302,6 @@ return {
 						end
 					end, { "i", "s" }),
 					["<CR>"] = cmp.mapping.confirm({
-						behavior = cmp.ConfirmBehavior.Insert,
-						select = true,
-					}),
-					["<Space>"] = cmp.mapping.confirm({
 						behavior = cmp.ConfirmBehavior.Insert,
 						select = true,
 					}),

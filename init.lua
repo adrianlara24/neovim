@@ -27,7 +27,7 @@ local opts = { noremap = true, silent = true }
 map("n", "<A-,>", "<Cmd>BufferPrevious<CR>", opts)
 map("n", "<A-.>", "<Cmd>BufferNext<CR>", opts)
 map("n", "<A-p>", "<Cmd>BufferPick<CR>", opts)
-map("n", "<A-\\>", ":vsplit<CR>", opts)
+map("n", "<A-=>", ":vsplit<CR>", opts)
 map("n", "<A-->", ":split<CR>", opts)
 map("n", "<A-h>", "<C-w>h", opts)
 map("n", "<A-j>", "<C-w>j", opts)
