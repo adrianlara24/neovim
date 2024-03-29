@@ -23,7 +23,7 @@ return {
 	{
 		"numtostr/BufOnly.nvim",
 		config = function()
-			vim.keymap.set("n", "<A-c>a", ":BufOnly<cr>", {})
+			vim.keymap.set("n", "<A-q>a", ":BufOnly<cr>", {})
 		end,
 	},
 }
