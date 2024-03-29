@@ -1,6 +1,8 @@
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
+vim.opt.textwidth = 200
+vim.opt.wrap = false
 vim.opt.expandtab = true
 vim.opt.undofile = true
 vim.opt.ignorecase = true
@@ -24,16 +26,21 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
-map("n", "<A-,>", "<Cmd>BufferPrevious<CR>", opts)
-map("n", "<A-.>", "<Cmd>BufferNext<CR>", opts)
+map("n", "<A-h>", "<Cmd>BufferPrevious<CR>", opts)
+map("n", "<A-l>", "<Cmd>BufferNext<CR>", opts)
+map("n", "<A-j>", "<Cmd>bfirst<CR>", opts)
+map("n", "<A-k>", "<Cmd>blast<CR>", opts)
 map("n", "<A-p>", "<Cmd>BufferPick<CR>", opts)
-map("n", "<A-=>", ":vsplit<CR>", opts)
-map("n", "<A-->", ":split<CR>", opts)
-map("n", "<A-h>", "<C-w>h", opts)
-map("n", "<A-j>", "<C-w>j", opts)
-map("n", "<A-k>", "<C-w>k", opts)
-map("n", "<A-l>", "<C-w>l", opts)
-vim.keymap.set({ "n", "v" }, "<A-c>", ":BufferClose<cr>", {})
+vim.keymap.set({ "n", "v" }, "<A-q>", ":BufferClose<cr>", {})
+
+map("n", "<leader>=", ":vsplit<CR>", opts)
+map("n", "<leader>-", ":split<CR>", opts)
+map("n", "<A-w>h", "<C-w>h", {})
+map("n", "<A-w>j", "<C-w>j", {})
+map("n", "<A-w>k", "<C-w>k", {})
+map("n", "<A-w>l", "<C-w>l", {})
+
+vim.keymap.set({ "n", "v" }, "<A-q>q", ":qa!<cr>", { desc = "Close NeoVim Foce" })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
