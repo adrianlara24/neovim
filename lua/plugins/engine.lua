@@ -180,6 +180,7 @@ return {
 				},
 				tsserver = {},
 				angularls = {
+					cmd = { "ngserver", "--stdio", "--tsProbeLocations", "node_modules/@angular/language-server" },
 					filetypes = {
 						"html",
 						"javascript",

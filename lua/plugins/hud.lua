@@ -78,4 +78,10 @@ return {
 			})
 		end,
 	},
+	{
+		"preservim/nerdtree",
+		config = function()
+			vim.keymap.set("n", "<S-Tab>", ":NERDTreeToggle<cr>", {})
+		end,
+	},
 }

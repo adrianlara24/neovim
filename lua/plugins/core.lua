@@ -5,12 +5,14 @@ return {
 		priority = 1000,
 		config = function()
 			require("catppuccin").setup({
-				flavour = "mocha",
+				flavour = "macchiato",
 				transparent_background = true,
+				default_integrations = true,
 				integrations = {
 					cmp = true,
 					nvimtree = true,
 					treesitter = true,
+					gitsigns = true,
 				},
 			})
 			vim.cmd.colorscheme("catppuccin")
