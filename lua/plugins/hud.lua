@@ -4,18 +4,25 @@ return {
 		config = true,
 	},
 	{
-		"romgrk/barbar.nvim",
-		event = "BufReadPre",
-		dependencies = {
-			"lewis6991/gitsigns.nvim",
-			"nvim-tree/nvim-web-devicons",
-		},
-		init = function()
-			vim.g.barbar_auto_setup = true
+		"akinsho/bufferline.nvim",
+		dependencies = "nvim-tree/nvim-web-devicons",
+		config = function()
+			require("bufferline").setup({
+				options = {
+					mode = "buffers",
+					tab_size = 20,
+					style_preset = require("bufferline").style_preset.no_italic,
+					show_buffer_close_icons = false,
+					truncate_names = true,
+					color_icons = false,
+					separator_style = "thin",
+					diagnostics = "nvim_lsp",
+					indicator = {
+						style = "none",
+					},
+				},
+			})
 		end,
-		opts = {
-			animation = true,
-		},
 	},
 	{
 		"nvim-lualine/lualine.nvim",

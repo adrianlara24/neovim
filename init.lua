@@ -26,12 +26,11 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
-map("n", "<A-h>", "<Cmd>BufferPrevious<CR>", opts)
-map("n", "<A-l>", "<Cmd>BufferNext<CR>", opts)
+map("n", "<A-h>", "<Cmd>bprev<CR>", opts)
+map("n", "<A-l>", "<Cmd>bnext<CR>", opts)
 map("n", "<A-j>", "<Cmd>bfirst<CR>", opts)
 map("n", "<A-k>", "<Cmd>blast<CR>", opts)
-map("n", "<A-p>", "<Cmd>BufferPick<CR>", opts)
-vim.keymap.set({ "n", "v" }, "<A-q>", ":BufferClose<cr>", {})
+vim.keymap.set({ "n", "v" }, "<A-q>", ":bd<cr>", {})
 
 map("n", "<leader>=", ":vsplit<CR>", opts)
 map("n", "<leader>-", ":split<CR>", opts)
