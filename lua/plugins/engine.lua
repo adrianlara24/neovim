@@ -291,7 +291,7 @@ return {
 							luasnip.jump(-1)
 						end
 					end, { "i", "s" }),
-					["<space>"] = cmp.mapping.confirm({
+					["<tab>"] = cmp.mapping.confirm({
 						behavior = cmp.ConfirmBehavior.Insert,
 						select = true,
 					}),
