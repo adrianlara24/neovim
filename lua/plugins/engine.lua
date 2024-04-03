@@ -25,7 +25,7 @@ return {
 				defaults = {
 					sorting_strategy = "ascending",
 					layout_strategy = "horizontal",
-					path_display = { "smart" },
+					-- path_display = { "tail" },
 					layout_config = {
 						horizontal = {
 							prompt_position = "top",

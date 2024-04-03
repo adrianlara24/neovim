@@ -28,11 +28,41 @@ return {
 		"nvim-lualine/lualine.nvim",
 		event = "BufReadPre",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		opts = {
-			options = {
-				theme = "catppuccin",
-			},
-		},
+		config = function()
+			require("lualine").setup({
+				options = {
+					component_separators = "|",
+					globalstatus = false,
+					refresh = {
+						winbar = 100,
+					},
+				},
+				winbar = {
+					lualine_a = {},
+					lualine_b = {},
+					lualine_c = {
+						{ "mode", color = { bg = "#dce0e8", fg = "#232634", gui = "bold" } },
+						{ "branch", color = { fg = "#dce0e8", gui = "bold" } },
+						{ "diff" },
+					},
+					lualine_x = {
+						{
+							"diagnostics",
+							sources = { "nvim_diagnostic" },
+							symbols = { error = "error:", warn = "warn:", info = "info:" },
+						},
+						{
+							"filename",
+							color = { fg = "#7287fd", gui = "bold" },
+							path = 1,
+						},
+					},
+					lualine_y = {},
+					lualine_z = {},
+				},
+				sections = {},
+			})
+		end,
 	},
 	{
 		"folke/zen-mode.nvim",
