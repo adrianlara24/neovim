@@ -37,7 +37,7 @@ return {
 						winbar = 100,
 					},
 				},
-				winbar = {
+				sections = {
 					lualine_a = {},
 					lualine_b = {},
 					lualine_c = {
@@ -60,7 +60,6 @@ return {
 					lualine_y = {},
 					lualine_z = {},
 				},
-				sections = {},
 			})
 		end,
 	},

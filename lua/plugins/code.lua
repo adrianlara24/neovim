@@ -29,21 +29,14 @@ return {
 	},
 	{
 		"numToStr/Comment.nvim",
-		lazy = false,
+		dependencies = {
+			"JoosepAlviste/nvim-ts-context-commentstring",
+		},
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
-			local comment = require("Comment")
-			comment.setup({
-				toggler = {
-					line = "<leader>cl",
-					block = "<leader>cb",
-				},
-				opleader = {
-					line = "<leader>cl",
-					block = "<leader>cb",
-				},
-				mappings = {
-					basic = true,
-				},
+			local ts_context_commentstring = require("ts_context_commentstring.integrations.comment_nvim")
+			require("Comment").setup({
+				pre_hook = ts_context_commentstring.create_pre_hook(),
 			})
 		end,
 	},

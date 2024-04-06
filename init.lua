@@ -26,11 +26,11 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
-map("n", "<A-h>", "<Cmd>bprev<CR>", opts)
-map("n", "<A-l>", "<Cmd>bnext<CR>", opts)
-map("n", "<A-j>", "<Cmd>bfirst<CR>", opts)
-map("n", "<A-k>", "<Cmd>blast<CR>", opts)
-vim.keymap.set({ "n", "v" }, "<A-q>", ":bd<cr>", {})
+map("n", "<A-h>", "<cmd>bprev<CR>", opts)
+map("n", "<A-l>", "<cmd>bnext<CR>", opts)
+map("n", "<A-j>", "<cmd>bfirst<CR>", opts)
+map("n", "<A-k>", "<cmd>blast<CR>", opts)
+vim.keymap.set({ "n", "v" }, "<A-q>", "<cmd>bd<CR>", {})
 
 map("n", "<leader>=", ":vsplit<CR>", opts)
 map("n", "<leader>-", ":split<CR>", opts)
@@ -41,13 +41,13 @@ map("n", "<A-w>l", "<C-w>l", {})
 
 vim.keymap.set({ "n", "v" }, "<A-q>q", ":qa!<cr>", { desc = "Close NeoVim Foce" })
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-})
+-- vim.api.nvim_create_autocmd("TextYankPost", {
+-- 	desc = "Highlight when yanking (copying) text",
+-- 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+-- 	callback = function()
+-- 		vim.highlight.on_yank()
+-- 	end,
+-- })
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then

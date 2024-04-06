@@ -60,7 +60,7 @@ return {
 							n = {
 								["<c-b>"] = require("telescope._extensions.file_browser.actions").goto_parent_dir,
 								["<c-r>"] = require("telescope._extensions.file_browser.actions").goto_cwd,
-								["<c-v>a"] = require("telescope._extensions.file_browser.actions").toggle_hidden,
+								["<c-h>"] = require("telescope._extensions.file_browser.actions").toggle_hidden,
 								["<c-f>"] = require("telescope._extensions.file_browser.actions").toggle_browser,
 								["<c-t>"] = require("telescope._extensions.file_browser.actions").toggle_all,
 								["<c-o>"] = require("telescope._extensions.file_browser.actions").open,
@@ -262,21 +262,23 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",
 			"rafamadriz/friendly-snippets",
+			"onsails/lspkind.nvim",
 		},
 		config = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
+			local lspkind = require("lspkind")
 			luasnip.config.setup({})
 
 			require("luasnip.loaders.from_vscode").lazy_load()
 
 			cmp.setup({
+				completion = { completeopt = "menu,menuone,preview,noinsert,noselect" },
 				snippet = {
 					expand = function(args)
 						luasnip.lsp_expand(args.body)
 					end,
 				},
-				completion = { completeopt = "menu,menuone,noinsert" },
 				mapping = cmp.mapping.preset.insert({
 					["<a-j>"] = cmp.mapping.scroll_docs(4),
 					["<a-k>"] = cmp.mapping.scroll_docs(-4),
@@ -321,12 +323,18 @@ return {
 					end, { "i", "s" }),
 				}),
 				sources = {
+					{ name = "luasnip" },
 					{ name = "nvim_lua" },
 					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
 					{ name = "buffer" },
 					{ name = "path" },
 					{ name = "completion-nvim" },
+				},
+				formating = {
+					format = lspkind.cmp_format({
+						maxwdith = 50,
+						ellipsis_char = "...",
+					}),
 				},
 			})
 		end,
