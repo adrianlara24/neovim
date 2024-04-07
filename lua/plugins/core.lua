@@ -1,5 +1,5 @@
 return {
-  -- VIM: THEME
+  --VIM: CATPPUCCIN THEME
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
@@ -19,7 +19,7 @@ return {
 			vim.cmd.colorscheme("catppuccin")
 		end,
 	},
-  -- VIM: AUTO SESSION
+  --VIM: AUTO SESSION
 	{
 		"rmagatti/auto-session",
 		config = function()
@@ -37,7 +37,7 @@ return {
 			keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" })
 		end,
 	},
-  -- VIM: BUF ONLY
+  --VIM: BUF ONLY
 	{
 		"numtostr/BufOnly.nvim",
 		config = function()

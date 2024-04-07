@@ -1,10 +1,10 @@
 return {
-  -- VIM: DRESSING
+  --VIM: DRESSING
 	{
 		"stevearc/dressing.nvim",
 		event = "VeryLazy",
 	},
-  -- VIM: DASHBOARD
+  --VIM: DASHBOARD
 	{
 		"goolord/alpha-nvim",
 		event = "VimEnter",
@@ -28,7 +28,7 @@ return {
 			vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
 		end,
 	},
-  -- VIM: TREE
+  --VIM: TREE
 	{
 		"nvim-tree/nvim-tree.lua",
 		dependencies = "nvim-tree/nvim-web-devicons",
@@ -69,7 +69,7 @@ return {
 			keymap.set("n", "<leader>rt", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })
 		end,
 	},
-  -- VIM: BUFFERLINE
+  --VIM: BUFFERLINE
 	{
 		"akinsho/bufferline.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
@@ -91,7 +91,7 @@ return {
 			})
 		end,
 	},
-  -- VIM: LUALINE
+  --VIM: LUALINE
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "BufReadPre",
@@ -156,14 +156,14 @@ return {
 			})
 		end,
 	},
-  -- VIM: MAXIMIZER
+  --VIM: MAXIMIZER
 	{
 		"szw/vim-maximizer",
 		keys = {
 			{ "<leader>z", "<cmd>MaximizerToggle<CR>", desc = "Maximize/minimize a split" },
 		},
 	},
-  -- VIM: INDENT BLANKLINE
+  --VIM: INDENT BLANKLINE
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		event = { "BufReadPre", "BufNewFile" },
@@ -172,7 +172,7 @@ return {
 			indent = { char = "┊" },
 		},
 	},
-  -- VIM: TOGGLETERM
+  --VIM: TOGGLETERM
 	{
 		"akinsho/toggleterm.nvim",
 		config = function()
@@ -196,7 +196,7 @@ return {
 			})
 		end,
 	},
-  -- VIM: NOTIFIER
+  --VIM: NOTIFIER
 	{
 		"vigoux/notifier.nvim",
 		config = function()

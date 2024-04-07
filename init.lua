@@ -1,9 +1,7 @@
--- TODO: fix autoclose tags to work with js and ts
--- TODO: lualine reconfigure
--- TODO: comment plugin custom config
--- TODO: view todo config
--- TODO: change zoom view plugin?
--- TODO: git integration fix it
+--TODO: fix autoclose tags to work with js and ts
+--TODO: lualine reconfigure
+--TODO: change zoom view plugin?
+--TODO: git integration fix it
 
 vim.cmd("let g:netrw_liststyle = 3")
 
@@ -32,7 +30,6 @@ opt.swapfile = false
 opt.background = "dark"
 opt.signcolumn = "yes"
 opt.backspace = "indent,eol,start"
-opt.clipboard:append("unnamedplus")
 
 g.mapleader = " "
 g.maplocalleader = " "
@@ -51,10 +48,6 @@ keymap.set("n", "<A-j>", "<C-w>j", { desc = "Move to bottom buffer" })
 keymap.set("n", "<A-k>", "<C-w>k", { desc = "Move to top buffer" })
 keymap.set("n", "<A-l>", "<C-w>l", { desc = "Move to right buffer" })
 keymap.set("n", "<A-e>e", "<cmd>qa!<CR>", { desc = "Close all buffers" })
-
--- HACK: remove this to the correct place
-keymap.set("n", "<leader>si", "<cmd>NvimWebDeviconsHiTest<CR>", { desc = "View devicons" })
-
 
 -- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {

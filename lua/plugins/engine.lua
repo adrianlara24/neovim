@@ -1,7 +1,7 @@
--- TODO: make finde files set insert mode by default in telescope
+--TODO: make finde files set insert mode by default in telescope
 
 return {
-	-- VIM: TELESCOPE
+	--VIM: TELESCOPE
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
@@ -82,7 +82,7 @@ return {
 			keymap.set("n", ":", "<cmd>Telescope cmdline<CR>", { desc = "Command line" })
 		end,
 	},
-	-- VIM: TREESITTER
+	--VIM: TREESITTER
 	{
 		"nvim-treesitter/nvim-treesitter",
 		event = { "BufReadPre", "BufNewFile" },
@@ -126,7 +126,7 @@ return {
 			})
 		end,
 	},
-	-- VIM: CMP
+	--VIM: CMP
 	{
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
@@ -180,7 +180,7 @@ return {
 			})
 		end,
 	},
-	-- VIM: MASON
+	--VIM: MASON
 	{
 		"williamboman/mason.nvim",
 		dependencies = {
@@ -222,7 +222,7 @@ return {
 			})
 		end,
 	},
-	-- VIM: LSP
+	--VIM: LSP
 	{
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPre", "BufNewFile" },
