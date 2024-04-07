@@ -1,19 +1,5 @@
 return {
 	{
-		"stevearc/oil.nvim",
-		config = function()
-			require("oil").setup({
-				lsp_file_methods = {
-					autosave_changes = true,
-				},
-				view_options = {
-					show_hidden = true,
-				},
-			})
-			vim.keymap.set("n", "-", "<cmd>Oil --float<cr>", { desc = "OIL open parent directory" })
-		end,
-	},
-	{
 		"lewis6991/gitsigns.nvim",
 		config = function()
 			require("gitsigns").setup({
