@@ -1,10 +1,10 @@
 return {
-  --VIM: DRESSING
+	--VIM: DRESSING
 	{
 		"stevearc/dressing.nvim",
 		event = "VeryLazy",
 	},
-  --VIM: DASHBOARD
+	--VIM: DASHBOARD
 	{
 		"goolord/alpha-nvim",
 		event = "VimEnter",
@@ -28,48 +28,19 @@ return {
 			vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
 		end,
 	},
-  --VIM: TREE
+	--VIM: TREE
 	{
-		"nvim-tree/nvim-tree.lua",
-		dependencies = "nvim-tree/nvim-web-devicons",
+		"preservim/nerdtree",
 		config = function()
-			local nvimtree = require("nvim-tree")
-
 			vim.g.loaded_netrw = 1
 			vim.g.loaded_netrwPlugin = 1
 
-			nvimtree.setup({
-				view = {
-					width = 35,
-					relativenumber = true,
-				},
-				-- change folder arrow icons
-				renderer = {
-					indent_markers = {
-						enable = true,
-					},
-				},
-				actions = {
-					open_file = {
-						window_picker = {
-							enable = false,
-						},
-					},
-				},
-				filters = {
-					custom = { ".DS_Store" },
-				},
-				git = {
-					ignore = false,
-				},
-			})
-
 			local keymap = vim.keymap
-			keymap.set("n", "<S-Tab>", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer" })
-			keymap.set("n", "<leader>rt", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })
+			keymap.set("n", "<S-Tab>", "<cmd>NERDTreeToggle<CR>", { desc = "Toggle file explorer" })
+			-- keymap.set("n", "<leader>rt", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })
 		end,
 	},
-  --VIM: BUFFERLINE
+	--VIM: BUFFERLINE
 	{
 		"akinsho/bufferline.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
@@ -91,7 +62,7 @@ return {
 			})
 		end,
 	},
-  --VIM: LUALINE
+	--VIM: LUALINE
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "BufReadPre",
@@ -107,7 +78,7 @@ return {
 				},
 
 				winbar = {
-					lualine_x = {
+					lualine_c = {
 						{
 							"filename",
 							color = { fg = "#737994", gui = "bold" },
@@ -116,7 +87,7 @@ return {
 					},
 				},
 				inactive_winbar = {
-					lualine_x = {
+					lualine_c = {
 						{
 							"filename",
 							color = { fg = "#737994", gui = "bold" },
@@ -156,14 +127,23 @@ return {
 			})
 		end,
 	},
-  --VIM: MAXIMIZER
+	--VIM: MAXIMIZER
 	{
-		"szw/vim-maximizer",
+		"folke/zen-mode.nvim",
+		opts = {
+			window = {
+				width = 1,
+				height = 1,
+			},
+			plugins = {
+				lualine = { enabled = true },
+			},
+		},
 		keys = {
-			{ "<leader>z", "<cmd>MaximizerToggle<CR>", desc = "Maximize/minimize a split" },
+			{ "<leader>z", "<cmd>ZenMode<CR>", desc = "Zen mode" },
 		},
 	},
-  --VIM: INDENT BLANKLINE
+	--VIM: INDENT BLANKLINE
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		event = { "BufReadPre", "BufNewFile" },
@@ -172,31 +152,7 @@ return {
 			indent = { char = "┊" },
 		},
 	},
-  --VIM: TOGGLETERM
-	{
-		"akinsho/toggleterm.nvim",
-		config = function()
-			require("toggleterm").setup({
-				open_mapping = [[<c-\>]],
-				autochdir = true,
-				direction = "horizontal",
-				hide_number = false,
-				shell = vim.o.shell,
-				auto_scroll = true,
-				on_create = function()
-					local opts = { buffer = 0 }
-					vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
-					vim.keymap.set("t", "jk", [[<C-\><C-n>]], opts)
-					vim.keymap.set("t", "<a-h>", [[<Cmd>wincmd h<CR>]], opts)
-					vim.keymap.set("t", "<a-j>", [[<Cmd>wincmd j<CR>]], opts)
-					vim.keymap.set("t", "<a-k>", [[<Cmd>wincmd k<CR>]], opts)
-					vim.keymap.set("t", "<a-l>", [[<Cmd>wincmd l<CR>]], opts)
-					vim.keymap.set("t", "<a-w>", [[<C-\><C-n><C-w>]], opts)
-				end,
-			})
-		end,
-	},
-  --VIM: NOTIFIER
+	--VIM: NOTIFIER
 	{
 		"vigoux/notifier.nvim",
 		config = function()

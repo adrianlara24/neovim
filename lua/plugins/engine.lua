@@ -210,6 +210,8 @@ return {
 					"tailwindcss",
 					"lua_ls",
 					"emmet_ls",
+          "rust_analyzer",
+          "omnisharp",
 				},
 			})
 
