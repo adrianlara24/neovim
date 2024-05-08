@@ -1,12 +1,12 @@
 return {
-  --VIM: CATPPUCCIN THEME
+	--VIM: CATPPUCCIN THEME
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
 		priority = 1000,
 		config = function()
 			require("catppuccin").setup({
-				flavour = "macchiato",
+				flavour = "mocha",
 				transparent_background = true,
 				default_integrations = true,
 				integrations = {
@@ -19,7 +19,7 @@ return {
 			vim.cmd.colorscheme("catppuccin")
 		end,
 	},
-  --VIM: AUTO SESSION
+	--VIM: AUTO SESSION
 	{
 		"rmagatti/auto-session",
 		config = function()
@@ -28,7 +28,7 @@ return {
 			auto_session.setup({
 				auto_restore_enabled = false,
 				auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
-        log_level = "error",
+				log_level = "error",
 			})
 
 			local keymap = vim.keymap
@@ -37,7 +37,7 @@ return {
 			keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" })
 		end,
 	},
-  --VIM: BUF ONLY
+	--VIM: BUF ONLY
 	{
 		"numtostr/BufOnly.nvim",
 		config = function()

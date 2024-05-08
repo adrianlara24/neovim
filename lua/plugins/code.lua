@@ -7,16 +7,17 @@ return {
 			local conform = require("conform")
 
 			conform.setup({
+				notify_on_error = true,
 				formatters_by_ft = {
-					javascript = { "prettier" },
-					typescript = { "prettier" },
-					javascriptreact = { "prettier" },
-					typescriptreact = { "prettier" },
-					css = { "prettier" },
-					html = { "prettier" },
-					json = { "prettier" },
-					yaml = { "prettier" },
-					markdown = { "prettier" },
+					javascript = { { "prettierd", "prettier" } },
+					typescript = { { "prettierd", "prettier" } },
+					javascriptreact = { { "prettierd", "prettier" } },
+					typescriptreact = { { "prettierd", "prettier" } },
+					css = { { "prettierd", "prettier" } },
+					html = { { "prettierd", "prettier" } },
+					json = { { "prettierd", "prettier" } },
+					yaml = { { "prettierd", "prettier" } },
+					markdown = { { "prettierd", "prettier" } },
 					lua = { "stylua" },
 				},
 			})
@@ -97,17 +98,17 @@ return {
 
 			comment.setup({
 				pre_hook = ts_context_commentstring.create_pre_hook(),
-        toggler = {
-          line = "<leader>cl",
-          block = "<leader>cb",
-        },
-        opleader = {
-          line = "<leader>cl",
-          block = "<leader>cb",
-        },
-        mappings = {
-          basic = true,
-        },
+				toggler = {
+					line = "<leader>cl",
+					block = "<leader>cb",
+				},
+				opleader = {
+					line = "<leader>cl",
+					block = "<leader>cb",
+				},
+				mappings = {
+					basic = true,
+				},
 			})
 		end,
 	},
