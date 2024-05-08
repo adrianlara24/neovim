@@ -183,14 +183,19 @@ return {
 	--VIM: LSP
 	{
 		"neovim/nvim-lspconfig",
-		--event = { "BufReadPre", "BufNewFile" },
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			{ "antosha417/nvim-lsp-file-operations", config = true },
 			{ "folke/neodev.nvim", opts = {} },
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
 		},
 		config = function()
 			local lspconfig = require("lspconfig")
+			local mason = require("mason")
+			local mason_tool_installer = require("mason-tool-installer")
 			local mason_lspconfig = require("mason-lspconfig")
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")
 			local keymap = vim.keymap
@@ -248,6 +253,38 @@ return {
 				end,
 			})
 
+			mason.setup({
+				ui = {
+					icons = {
+						package_installed = "✓",
+						package_pending = "➜",
+						package_uninstalled = "✗",
+					},
+				},
+			})
+
+			mason_lspconfig.setup({
+				ensure_installed = {
+					"angularls",
+					"tsserver",
+					"html",
+					"cssls",
+					"tailwindcss",
+					"lua_ls",
+					"emmet_ls",
+					"rust_analyzer",
+					"omnisharp",
+				},
+			})
+
+			mason_tool_installer.setup({
+				ensure_installed = {
+					"prettier",
+					"stylua",
+					"eslint_d",
+				},
+			})
+
 			local capabilities = cmp_nvim_lsp.default_capabilities()
 			mason_lspconfig.setup_handlers({
 				function(server_name)
@@ -286,50 +323,6 @@ return {
 						},
 					})
 				end,
-			})
-		end,
-	},
-	--VIM: MASON
-	{
-		"williamboman/mason.nvim",
-		dependencies = {
-			"williamboman/mason-lspconfig.nvim",
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
-		},
-		config = function()
-			local mason = require("mason")
-			local mason_lspconfig = require("mason-lspconfig")
-			local mason_tool_installer = require("mason-tool-installer")
-			mason.setup({
-				ui = {
-					icons = {
-						package_installed = "✓",
-						package_pending = "➜",
-						package_uninstalled = "✗",
-					},
-				},
-			})
-
-			mason_lspconfig.setup({
-				ensure_installed = {
-					"angularls",
-					"tsserver",
-					"html",
-					"cssls",
-					"tailwindcss",
-					"lua_ls",
-					"emmet_ls",
-					"rust_analyzer",
-					"omnisharp",
-				},
-			})
-
-			mason_tool_installer.setup({
-				ensure_installed = {
-					"prettier",
-					"stylua",
-					"eslint_d",
-				},
 			})
 		end,
 	},
