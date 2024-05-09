@@ -1,7 +1,5 @@
 --TODO: fix autoclose tags to work with js and ts
 --TODO: lualine reconfigure
---TODO: change zoom view plugin?
---TODO: git integration fix it
 
 vim.cmd("let g:netrw_liststyle = 3")
 

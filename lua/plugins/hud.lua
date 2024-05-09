@@ -52,7 +52,7 @@ return {
 					style_preset = require("bufferline").style_preset.no_italic,
 					show_buffer_close_icons = false,
 					truncate_names = true,
-					color_icons = false,
+					color_icons = true,
 					separator_style = "thin",
 					diagnostics = "nvim_lsp",
 					indicator = {
@@ -81,7 +81,7 @@ return {
 					lualine_c = {
 						{
 							"filename",
-							color = { fg = "#737994", gui = "bold" },
+							color = { fg = "#eaeaea", gui = "bold" },
 							path = 1,
 						},
 					},
@@ -111,6 +111,24 @@ return {
 								return { bg = colors[vim.fn.mode()], fg = "#232634", gui = "bold" }
 							end,
 						},
+						{ "branch", color = { fg = "#cad3f5", gui = "bold" } },
+						{ "diff" },
+					},
+					lualine_x = {
+						{
+							"diagnostics",
+							sources = { "nvim_diagnostic" },
+							symbols = { error = "error:", warn = "warn:", info = "info:" },
+						},
+					},
+					lualine_y = {},
+					lualine_z = {},
+				},
+				inactive_sections = {
+					lualine_a = {},
+					lualine_b = {},
+					lualine_c = {
+						{ "mode", color = { fg = "#202020", bg = "#909090", gui = "bold" } },
 						{ "branch", color = { fg = "#cad3f5", gui = "bold" } },
 						{ "diff" },
 					},
