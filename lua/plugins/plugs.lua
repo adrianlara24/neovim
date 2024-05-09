@@ -1,5 +1,5 @@
 return {
-  --VIM: TOGGLETERM
+	--VIM: TOGGLETERM
 	{
 		"akinsho/toggleterm.nvim",
 		config = function()
@@ -25,6 +25,7 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
+		event = { "BufRead", "BufNewFile" },
 		config = function()
 			require("gitsigns").setup({
 				signs = {
@@ -35,17 +36,17 @@ return {
 					changedelete = { text = "~" },
 				},
 			})
-			vim.keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<cr>", {})
-			vim.keymap.set("n", "<leader>ga", ":Gitsigns toggle_current_line_blame<cr>", {})
+			vim.keymap.set("n", "[h", ":Gitsigns prev_hunk<cr>", {})
+			vim.keymap.set("n", "]h", ":Gitsigns next_hunk<cr>", {})
+			vim.keymap.set("n", "<leader>hp", ":Gitsigns preview_hunk<cr>", {})
+			vim.keymap.set("n", "<leader>hb", ":Gitsigns toggle_current_line_blame<cr>", {})
+			vim.keymap.set("n", "<leader>gd", ":Gitsigns diffthis<cr>", {})
 		end,
 	},
 	{
 		"tpope/vim-fugitive",
 		config = function()
 			vim.keymap.set("n", "<leader>gg", ":Git<cr>", {})
-			vim.keymap.set("n", "<leader>gc", ":Git commit<cr>", {})
-			vim.keymap.set("n", "<leader>gP", ":Git pull<cr>", {})
-			vim.keymap.set("n", "<leader>gp", ":Git push<cr>", {})
 			vim.keymap.set("n", "<leader>gb", ":Git blame<cr>", {})
 		end,
 	},

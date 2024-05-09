@@ -71,7 +71,7 @@ return {
 
 			local keymap = vim.keymap
 			local file_browser = "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>"
-			keymap.set("n", "<leader>fh", "<cmd>Telescope search_help<CR>", { desc = "Find help" })
+			-- keymap.set("n", "<leader>fh", "<cmd>Telescope search_help<CR>", { desc = "Find help" })
 			keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<CR>", { desc = "Find keymaps" })
 			keymap.set("n", "<leader><leader>", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
 			keymap.set("n", "<leader>ff", "<cmd>Telescope buffers<CR>", { desc = "Find buffers" })
@@ -207,7 +207,7 @@ return {
 
 					-- set keybinds
 					opts.desc = "Show LSP references"
-					keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+					keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 
 					opts.desc = "Go to declaration"
 					keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
@@ -220,9 +220,6 @@ return {
 
 					opts.desc = "Show LSP type definitions"
 					keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-
-					opts.desc = "Show workspace symbols"
-					keymap.set("n", "<leader>sw", require("telescope.builtin").lsp_dynamic_workspace_symbols, opts) -- show lsp type definitions
 
 					opts.desc = "Show document symbols"
 					keymap.set("n", "<leader>sd", require("telescope.builtin").lsp_document_symbols, opts) -- show lsp type definitions
