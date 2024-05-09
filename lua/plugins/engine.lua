@@ -74,7 +74,7 @@ return {
 			-- keymap.set("n", "<leader>fh", "<cmd>Telescope search_help<CR>", { desc = "Find help" })
 			keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<CR>", { desc = "Find keymaps" })
 			keymap.set("n", "<leader><leader>", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
-			keymap.set("n", "<leader>ff", "<cmd>Telescope buffers<CR>", { desc = "Find buffers" })
+			keymap.set("n", "<leader><tab>", "<cmd>Telescope buffers<CR>", { desc = "Find buffers" })
 			keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", { desc = "Find Grep" })
 			keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<CR>", { desc = "Find diagnostics" })
 			keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
