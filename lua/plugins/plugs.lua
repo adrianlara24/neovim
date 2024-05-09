@@ -1,4 +1,5 @@
 return {
+  --nuevo tema
 	--VIM: TOGGLETERM
 	{
 		"akinsho/toggleterm.nvim",
