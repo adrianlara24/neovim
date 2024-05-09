@@ -1,6 +1,5 @@
 return {
 	--VIM: TOGGLETERM
-  --aca va el cambio que se hizo en engine.lua
 	{
 		"akinsho/toggleterm.nvim",
 		config = function()
