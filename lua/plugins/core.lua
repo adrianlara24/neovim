@@ -7,7 +7,7 @@ return {
 		config = function()
 			require("catppuccin").setup({
 				flavour = "mocha",
-				transparent_background = true,
+				transparent_background = false,
 				default_integrations = true,
 				integrations = {
 					cmp = true,
@@ -16,8 +16,32 @@ return {
 					gitsigns = true,
 				},
 			})
-			vim.cmd.colorscheme("catppuccin")
 		end,
+	},
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
+		config = function()
+			local rose_pine = require("rose-pine")
+			rose_pine.setup({
+				variant = "moon",
+				styles = {
+					bold = true,
+					italic = true,
+					transparency = false,
+				},
+			})
+		end,
+	},
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+	},
+	{
+		"savq/melange-nvim",
+		lazy = false,
+		priority = 1000,
 	},
 	--VIM: AUTO SESSION
 	{

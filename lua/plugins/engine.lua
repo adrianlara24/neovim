@@ -78,6 +78,7 @@ return {
 			keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", { desc = "Find Grep" })
 			keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<CR>", { desc = "Find diagnostics" })
 			keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
+			keymap.set("n", "<leader>t", "<cmd>Telescope colorscheme<cr>", { desc = "Find themes" })
 			keymap.set("n", "<tab>", file_browser, { desc = "File browser" })
 			keymap.set("n", ":", "<cmd>Telescope cmdline<CR>", { desc = "Command line" })
 		end,

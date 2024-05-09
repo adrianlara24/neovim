@@ -1,5 +1,6 @@
 --TODO: fix autoclose tags to work with js and ts
 --TODO: lualine reconfigure
+--TODO: add rest and db plugins
 
 vim.cmd("let g:netrw_liststyle = 3")
 
@@ -75,3 +76,5 @@ require("lazy").setup("plugins", {
 		notify = false,
 	},
 })
+
+vim.api.nvim_command("colorscheme catppuccin")
