@@ -1,54 +1,64 @@
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.softtabstop = 2
-vim.opt.textwidth = 200
-vim.opt.wrap = false
-vim.opt.expandtab = true
-vim.opt.undofile = true
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
-vim.opt.splitright = true
-vim.opt.splitbelow = true
-vim.opt.cursorline = true
-vim.opt.scrolloff = 10
-vim.opt.hlsearch = true
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-vim.o.number = true
-vim.o.relativenumber = false
+--TODO: fix autoclose tags to work with js and ts
+--TODO: lualine reconfigure
+--TODO: change zoom view plugin?
+--TODO: git integration fix it
 
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.cmd("let g:netrw_liststyle = 3")
 
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
-map("n", "<A-h>", "<cmd>bprev<CR>", opts)
-map("n", "<A-l>", "<cmd>bnext<CR>", opts)
-map("n", "<A-j>", "<cmd>bfirst<CR>", opts)
-map("n", "<A-k>", "<cmd>blast<CR>", opts)
-vim.keymap.set({ "n", "v" }, "<A-q>", "<cmd>bd<CR>", {})
+local opt = vim.opt
+local g = vim.g
+local o = vim.o
+local keymap = vim.keymap
 
-map("n", "<leader>=", ":vsplit<CR>", opts)
-map("n", "<leader>-", ":split<CR>", opts)
-map("n", "<A-w>h", "<C-w>h", {})
-map("n", "<A-w>j", "<C-w>j", {})
-map("n", "<A-w>k", "<C-w>k", {})
-map("n", "<A-w>l", "<C-w>l", {})
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.softtabstop = 2
+opt.updatetime = 250
+opt.timeoutlen = 300
+opt.scrolloff = 10
+opt.textwidth = 200
+opt.wrap = false
+opt.expandtab = true
+opt.ignorecase = true
+opt.smartcase = true
+opt.splitright = true
+opt.splitbelow = true
+opt.cursorline = true
+opt.autoindent = true
+opt.termguicolors = true
+opt.swapfile = false
+opt.background = "dark"
+opt.signcolumn = "yes"
+opt.backspace = "indent,eol,start"
 
-vim.keymap.set({ "n", "v" }, "<A-q>q", ":qa!<cr>", { desc = "Close NeoVim Foce" })
+g.mapleader = " "
+g.maplocalleader = " "
 
--- vim.api.nvim_create_autocmd("TextYankPost", {
--- 	desc = "Highlight when yanking (copying) text",
--- 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
--- 	callback = function()
--- 		vim.highlight.on_yank()
--- 	end,
--- })
+o.number = true
+o.relativenumber = false
 
+keymap.set("n", "<A-a>", "<cmd>bprev<CR>", { desc = "Go to previous buffer" })
+keymap.set("n", "<A-s>", "<cmd>bnext<CR>", { desc = "Go to next buffer" })
+keymap.set("n", "<A-q>", "<cmd>bd<CR>", { desc = "Close buffer" })
+keymap.set("n", "<A-q>q", "<cmd>bd!<CR>", { desc = "Close buffer force" })
+keymap.set("n", "<A-1>", "<cmd>vsplit<CR>", { desc = "Split vertically" })
+keymap.set("n", "<A-2>", "<cmd>split<CR>", { desc = "Split horizontally" })
+keymap.set("n", "<A-h>", "<C-w>h", { desc = "Move to left buffer" })
+keymap.set("n", "<A-j>", "<C-w>j", { desc = "Move to bottom buffer" })
+keymap.set("n", "<A-k>", "<C-w>k", { desc = "Move to top buffer" })
+keymap.set("n", "<A-l>", "<C-w>l", { desc = "Move to right buffer" })
+keymap.set("n", "<A-e>e", "<cmd>qa!<CR>", { desc = "Close all buffers" })
+
+-- Highlight yanked text
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})
+
+-- Load lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -62,4 +72,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins", {})
+require("lazy").setup("plugins", {
+	change_detection = {
+		notify = false,
+	},
+})
