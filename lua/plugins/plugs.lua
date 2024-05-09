@@ -23,11 +23,13 @@ return {
 			})
 		end,
 	},
+  -- VIM: GITSIGNS
 	{
 		"lewis6991/gitsigns.nvim",
 		event = { "BufRead", "BufNewFile" },
 		config = function()
-			require("gitsigns").setup({
+      local gitsigns = require("gitsigns")
+			gitsigns.setup({
 				signs = {
 					add = { text = "+" },
 					change = { text = "~" },
@@ -36,43 +38,28 @@ return {
 					changedelete = { text = "~" },
 				},
 			})
-			vim.keymap.set("n", "[h", ":Gitsigns prev_hunk<cr>", {})
-			vim.keymap.set("n", "]h", ":Gitsigns next_hunk<cr>", {})
-			vim.keymap.set("n", "<leader>hp", ":Gitsigns preview_hunk<cr>", {})
-			vim.keymap.set("n", "<leader>hb", ":Gitsigns toggle_current_line_blame<cr>", {})
-			vim.keymap.set("n", "<leader>gd", ":Gitsigns diffthis<cr>", {})
+			vim.keymap.set("n", "[h", ":Gitsigns prev_hunk<cr>", { desc = "Gitsigns previous hunk" })
+			vim.keymap.set("n", "]h", ":Gitsigns next_hunk<cr>", { desc = "Gitsigns next hunk" })
+			vim.keymap.set("n", "<leader>hp", ":Gitsigns preview_hunk<cr>", { desc = "Gitsigns preview hunk" })
+			vim.keymap.set("n", "<leader>hs", ":Gitsigns stage_hunk<cr>", { desc = "Gitsigns stage hunk" })
+			vim.keymap.set("n", "<leader>hu", function()
+				gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+			end, { desc = "Gitsigns undo hunk" })
+			vim.keymap.set(
+				"n",
+				"<leader>hb",
+				":Gitsigns toggle_current_line_blame<cr>",
+				{ desc = "Gitsigns toggle blame line" }
+			)
+			vim.keymap.set("n", "<leader>gd", ":Gitsigns diffthis<cr>", { desc = "Gitsigns diff this" })
 		end,
 	},
+  -- VIM: FUGITIVE
 	{
 		"tpope/vim-fugitive",
 		config = function()
 			vim.keymap.set("n", "<leader>gg", ":Git<cr>", {})
 			vim.keymap.set("n", "<leader>gb", ":Git blame<cr>", {})
-		end,
-	},
-	{
-		"rest-nvim/rest.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		ft = "http",
-		config = function()
-			require("rest-nvim").setup({
-				result_split_horizontal = false,
-				result_split_in_place = false,
-				stay_in_current_window_after_split = false,
-				jump_to_request = true,
-				highlight = {
-					enabled = true,
-					timeout = 120,
-				},
-				result = {
-					show_url = true,
-					show_curl_command = false,
-					show_http_info = false,
-					show_headers = true,
-					show_statistics = false,
-				},
-			})
-			vim.keymap.set("n", "<leader>rr", require("rest-nvim").run, { desc = "[R]est [R]un" })
 		end,
 	},
 }
