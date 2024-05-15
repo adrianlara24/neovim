@@ -23,12 +23,12 @@ return {
 			})
 		end,
 	},
-  -- VIM: GITSIGNS
+	--VIM: GITSIGNS
 	{
 		"lewis6991/gitsigns.nvim",
 		event = { "BufRead", "BufNewFile" },
 		config = function()
-      local gitsigns = require("gitsigns")
+			local gitsigns = require("gitsigns")
 			gitsigns.setup({
 				signs = {
 					add = { text = "+" },
@@ -54,12 +54,16 @@ return {
 			vim.keymap.set("n", "<leader>gd", ":Gitsigns diffthis<cr>", { desc = "Gitsigns diff this" })
 		end,
 	},
-  -- VIM: FUGITIVE
+	--VIM: FUGITIVE
 	{
 		"tpope/vim-fugitive",
 		config = function()
 			vim.keymap.set("n", "<leader>gg", ":Git<cr>", {})
 			vim.keymap.set("n", "<leader>gb", ":Git blame<cr>", {})
 		end,
+	},
+
+	{
+		"diepm/vim-rest-console",
 	},
 }

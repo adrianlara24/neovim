@@ -15,8 +15,8 @@ return {
 			-- Set menu
 			dashboard.section.buttons.val = {
 				dashboard.button("e", "  > New File", "<cmd>ene<CR>"),
-				dashboard.button("SPC ff", "󰱼 > Find File", "<cmd>Telescope find_files<CR>"),
-				dashboard.button("SPC fs", "  > Find Word", "<cmd>Telescope live_grep<CR>"),
+				dashboard.button("SPC SPC", "󰱼 > Find File", "<cmd>Telescope find_files<CR>"),
+				dashboard.button("SPC fg", "  > Find Word", "<cmd>Telescope live_grep<CR>"),
 				dashboard.button("SPC wr", "󰁯  > Restore Session For Current Directory", "<cmd>SessionRestore<CR>"),
 				dashboard.button("q", " > Quit NVIM", "<cmd>qa<CR>"),
 			}
@@ -81,7 +81,7 @@ return {
 					lualine_c = {
 						{
 							"filename",
-							color = { fg = "#eaeaea", gui = "bold" },
+							color = { fg = "#eaeaea", gui = "bold", bg = "#000000" },
 							path = 1,
 						},
 					},
@@ -90,57 +90,10 @@ return {
 					lualine_c = {
 						{
 							"filename",
-							color = { fg = "#737994", gui = "bold" },
+							color = { fg = "#eaeaea", gui = "bold", bg = "#000000" },
 							path = 1,
 						},
 					},
-				},
-				sections = {
-					lualine_a = {},
-					lualine_b = {},
-					lualine_c = {
-						{
-							"mode",
-							color = function()
-								local colors = {
-									n = "#ca9ee6",
-									i = "#a6d189",
-									v = "#8caaee",
-									V = "#8caaee",
-								}
-								return { bg = colors[vim.fn.mode()], fg = "#232634", gui = "bold" }
-							end,
-						},
-						{ "branch", color = { fg = "#cad3f5", gui = "bold" } },
-						{ "diff" },
-					},
-					lualine_x = {
-						{
-							"diagnostics",
-							sources = { "nvim_diagnostic" },
-							symbols = { error = "error:", warn = "warn:", info = "info:" },
-						},
-					},
-					lualine_y = {},
-					lualine_z = {},
-				},
-				inactive_sections = {
-					lualine_a = {},
-					lualine_b = {},
-					lualine_c = {
-						{ "mode", color = { fg = "#202020", bg = "#909090", gui = "bold" } },
-						{ "branch", color = { fg = "#cad3f5", gui = "bold" } },
-						{ "diff" },
-					},
-					lualine_x = {
-						{
-							"diagnostics",
-							sources = { "nvim_diagnostic" },
-							symbols = { error = "error:", warn = "warn:", info = "info:" },
-						},
-					},
-					lualine_y = {},
-					lualine_z = {},
 				},
 			})
 		end,
@@ -170,15 +123,13 @@ return {
 			indent = { char = "┊" },
 		},
 	},
-	--VIM: NOTIFIER
+	--VIM: NOTIFY
 	{
-		"vigoux/notifier.nvim",
+		"rcarriga/nvim-notify",
 		config = function()
-			require("notifier").setup({
-				components = {
-					"nvim",
-					"lsp",
-				},
+			local notify = require("notify")
+			notify.setup({
+				render = "minimal",
 			})
 		end,
 	},
