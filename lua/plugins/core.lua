@@ -1,5 +1,5 @@
 return {
-	--VIM: CATPPUCCIN THEME
+	--VIM: THEMES
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
@@ -42,6 +42,27 @@ return {
 		"savq/melange-nvim",
 		lazy = false,
 		priority = 1000,
+	},
+	{
+		"marko-cerovac/material.nvim",
+		lazy = false,
+		priority = 1000,
+	},
+	{
+		"kdheepak/monochrome.nvim",
+		lazy = false,
+		priority = 1000,
+	},
+	{
+		"maxmx03/fluoromachine.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			local fm = require("fluoromachine")
+			fm.setup({
+				glow = true,
+			})
+		end,
 	},
 	--VIM: AUTO SESSION
 	{
