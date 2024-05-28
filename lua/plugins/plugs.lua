@@ -54,21 +54,12 @@ return {
 			vim.keymap.set("n", "<leader>gd", ":Gitsigns diffthis<cr>", { desc = "Gitsigns diff this" })
 		end,
 	},
-	--VIM: FUGITIVE
-	{
-		"tpope/vim-fugitive",
-    enabled = false,
-		config = function()
-			vim.keymap.set("n", "<leader>gg", ":Git<cr>", {})
-			vim.keymap.set("n", "<leader>gb", ":Git blame<cr>", {})
-		end,
-	},
 	--VIM: NEOGIT
 	{
 		"NeogitOrg/neogit",
 		dependencies = {
-			"nvim-lua/plenary.nvim", -- required
-			"sindrets/diffview.nvim", -- optional - Diff integration
+			"nvim-lua/plenary.nvim",
+			"sindrets/diffview.nvim",
 		},
 		config = function()
 			local neogit = require("neogit")
