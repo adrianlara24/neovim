@@ -57,12 +57,25 @@ return {
 	--VIM: FUGITIVE
 	{
 		"tpope/vim-fugitive",
+    enabled = false,
 		config = function()
 			vim.keymap.set("n", "<leader>gg", ":Git<cr>", {})
 			vim.keymap.set("n", "<leader>gb", ":Git blame<cr>", {})
 		end,
 	},
-
+	--VIM: NEOGIT
+	{
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- required
+			"sindrets/diffview.nvim", -- optional - Diff integration
+		},
+		config = function()
+			local neogit = require("neogit")
+			neogit.setup({})
+			vim.keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", {})
+		end,
+	},
 	{
 		"diepm/vim-rest-console",
 	},

@@ -324,4 +324,12 @@ return {
 			})
 		end,
 	},
+	{
+		"mfussenegger/nvim-dap",
+		config = function()
+			local keymap = vim.keymap
+			keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<CR>", { desc = "Find keymaps" })
+		end,
+	},
+	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
 }
