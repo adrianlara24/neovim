@@ -78,4 +78,4 @@ require("lazy").setup("plugins", {
 	},
 })
 
-vim.api.nvim_command("colorscheme material-deep-ocean")
+vim.api.nvim_command("colorscheme rose-pine-moon")
