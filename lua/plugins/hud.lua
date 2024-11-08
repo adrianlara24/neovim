@@ -44,6 +44,7 @@ return {
 	{
 		"akinsho/bufferline.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
+    enabled = false,
 		config = function()
 			require("bufferline").setup({
 				options = {
@@ -81,7 +82,7 @@ return {
 					lualine_c = {
 						{
 							"filename",
-							color = { fg = "#eaeaea", gui = "bold", bg = "#000000" },
+							color = { fg = "#eaeaea", gui = "bold", bg = "transparent" },
 							path = 1,
 						},
 					},
@@ -90,7 +91,7 @@ return {
 					lualine_c = {
 						{
 							"filename",
-							color = { fg = "#eaeaea", gui = "bold", bg = "#000000" },
+							color = { fg = "#eaeaea", gui = "bold", bg = "transparent" },
 							path = 1,
 						},
 					},

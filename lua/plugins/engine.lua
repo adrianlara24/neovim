@@ -264,7 +264,7 @@ return {
 			mason_lspconfig.setup({
 				ensure_installed = {
 					"angularls",
-					"tsserver",
+					"ts_ls",
 					"html",
 					"cssls",
 					"tailwindcss",
