@@ -4,7 +4,6 @@ return {
 	--VIM: TELESCOPE
 	{
 		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons",
@@ -14,6 +13,8 @@ return {
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		},
 		config = function()
+			local full_path = true
+
 			require("telescope").setup({
 				defaults = {
 					sorting_strategy = "ascending",
@@ -40,6 +41,36 @@ return {
 							["<a-j>"] = require("telescope.actions").preview_scrolling_down,
 							["<a-k>"] = require("telescope.actions").preview_scrolling_up,
 							["<space>"] = require("telescope.actions").select_default,
+							["t"] = function(prompt_bufnr)
+								full_path = not full_path
+								local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+								local opts = {
+									hidden = true,
+									default_text = picker:_get_prompt(),
+									path_display = function(_, path)
+										local filename = vim.fn.fnamemodify(path, ":t") -- Nombre del archivo
+										local dirname = vim.fn.fnamemodify(path, ":h") -- Directorio
+
+										if full_path then
+											return dirname .. "\\" .. filename
+										else
+											return filename
+										end
+									end,
+								}
+
+								local type = ""
+								if picker.prompt_title == "Find Files" then
+									type = "find_files"
+								elseif picker.prompt_title == "Buffers" then
+									type = "buffers"
+								end
+
+								if type ~= "" then
+									require("telescope.actions").close(prompt_bufnr)
+									require("telescope.builtin")[type](opts)
+								end
+							end,
 						},
 					},
 				},
@@ -71,7 +102,6 @@ return {
 
 			local keymap = vim.keymap
 			local file_browser = "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>"
-			-- keymap.set("n", "<leader>fh", "<cmd>Telescope search_help<CR>", { desc = "Find help" })
 			keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<CR>", { desc = "Find keymaps" })
 			keymap.set("n", "<leader><leader>", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
 			keymap.set("n", "<leader><tab>", "<cmd>Telescope buffers<CR>", { desc = "Find buffers" })
@@ -206,6 +236,16 @@ return {
 				callback = function(ev)
 					local opts = { buffer = ev.buf, silent = true }
 
+					local diagnostics_visible = true
+					function ToggleDiagnostics()
+						diagnostics_visible = not diagnostics_visible
+						if diagnostics_visible then
+							vim.diagnostic.enable()
+						else
+							vim.diagnostic.enable(false)
+						end
+					end
+
 					-- set keybinds
 					opts.desc = "Show LSP references"
 					keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
@@ -237,6 +277,9 @@ return {
 					opts.desc = "Show line diagnostics"
 					keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
+					opts.desc = "Hide diagnostic"
+					keymap.set("n", "<leader>dt", "<cmd>lua ToggleDiagnostics()<CR>", opts) -- show documentation for what is under cursor
+
 					opts.desc = "Go to previous diagnostic"
 					keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
 
@@ -247,7 +290,7 @@ return {
 					keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
 					opts.desc = "Restart LSP"
-					keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+					keymap.set("n", "<leader>rs", "<cmd>LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 				end,
 			})
 

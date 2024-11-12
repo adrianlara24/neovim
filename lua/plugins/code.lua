@@ -159,14 +159,11 @@ return {
 			},
 		},
 	},
-	--VIM: COPILOT
-	{
-		"github/copilot.vim",
-	},
 	--VIM: SELECT MULTILINE
 	{
 		"mg979/vim-visual-multi",
 	},
+	--VIM: HARPOON
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
