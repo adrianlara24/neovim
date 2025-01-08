@@ -1,378 +1,346 @@
 --TODO: make finde files set insert mode by default in telescope
 
 return {
-	--VIM: TELESCOPE
-	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons",
-			"nvim-telescope/telescope-file-browser.nvim",
-			"jonarrien/telescope-cmdline.nvim",
-			"folke/todo-comments.nvim",
-			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-		},
-		config = function()
-			local full_path = true
+  --VIM: TELESCOPE
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "nvim-telescope/telescope-file-browser.nvim",
+      "jonarrien/telescope-cmdline.nvim",
+      "folke/todo-comments.nvim",
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    },
+    config = function()
+      require("telescope").setup({
+        defaults = {
+          sorting_strategy = "ascending",
+          layout_strategy = "horizontal",
+          initial_mode = "normal",
+          layout_config = {
+            horizontal = {
+              prompt_position = "top",
+            },
+          },
+          preview = {
+            hide_on_startup = true,
+          },
+          mappings = {
+            i = {
+              ["<c-p>"] = require("telescope.actions.layout").toggle_preview,
+              ["<c-k>"] = require("telescope.actions").move_selection_previous,
+              ["<c-j>"] = require("telescope.actions").move_selection_next,
+              ["<a-j>"] = require("telescope.actions").preview_scrolling_down,
+              ["<a-k>"] = require("telescope.actions").preview_scrolling_up,
+            },
+            n = {
+              ["<c-p>"] = require("telescope.actions.layout").toggle_preview,
+              ["<a-j>"] = require("telescope.actions").preview_scrolling_down,
+              ["<a-k>"] = require("telescope.actions").preview_scrolling_up,
+              ["<space>"] = require("telescope.actions").select_default,
+            },
+          },
+        },
+        extensions = {
+          file_browser = {
+            mappings = {
+              n = {
+                ["<c-b>"] = require("telescope._extensions.file_browser.actions").goto_parent_dir,
+                ["<c-r>"] = require("telescope._extensions.file_browser.actions").goto_cwd,
+                ["<c-h>"] = require("telescope._extensions.file_browser.actions").toggle_hidden,
+                ["<c-f>"] = require("telescope._extensions.file_browser.actions").toggle_browser,
+              },
+            },
+          },
+          cmdline = {
+            picker = {
+              initial_mode = "insert",
+              layout_config = {
+                height = 12,
+              },
+            },
+          },
+        },
+      })
 
-			require("telescope").setup({
-				defaults = {
-					sorting_strategy = "ascending",
-					layout_strategy = "horizontal",
-					initial_mode = "normal",
-					layout_config = {
-						horizontal = {
-							prompt_position = "top",
-						},
-					},
-					preview = {
-						hide_on_startup = true,
-					},
-					mappings = {
-						i = {
-							["<c-p>"] = require("telescope.actions.layout").toggle_preview,
-							["<c-k>"] = require("telescope.actions").move_selection_previous,
-							["<c-j>"] = require("telescope.actions").move_selection_next,
-							["<a-j>"] = require("telescope.actions").preview_scrolling_down,
-							["<a-k>"] = require("telescope.actions").preview_scrolling_up,
-						},
-						n = {
-							["<c-p>"] = require("telescope.actions.layout").toggle_preview,
-							["<a-j>"] = require("telescope.actions").preview_scrolling_down,
-							["<a-k>"] = require("telescope.actions").preview_scrolling_up,
-							["<space>"] = require("telescope.actions").select_default,
-							["t"] = function(prompt_bufnr)
-								full_path = not full_path
-								local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
-								local opts = {
-									hidden = true,
-									default_text = picker:_get_prompt(),
-									path_display = function(_, path)
-										local filename = vim.fn.fnamemodify(path, ":t") -- Nombre del archivo
-										local dirname = vim.fn.fnamemodify(path, ":h") -- Directorio
+      pcall(require("telescope").load_extension, "fzf")
+      pcall(require("telescope").load_extension, "file_browser")
+      pcall(require("telescope").load_extension, "cmdline")
 
-										if full_path then
-											return dirname .. "\\" .. filename
-										else
-											return filename
-										end
-									end,
-								}
+      local keymap = vim.keymap
+      local file_browser = "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>"
+      keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<CR>", { desc = "Find keymaps" })
+      keymap.set("n", "<leader><leader>", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
+      keymap.set("n", "<leader><tab>", "<cmd>Telescope buffers<CR>", { desc = "Find buffers" })
+      keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", { desc = "Find Grep" })
+      keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<CR>", { desc = "Find diagnostics" })
+      keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
+      keymap.set("n", "<leader>t", "<cmd>Telescope colorscheme<cr>", { desc = "Find themes" })
+      keymap.set("n", "<tab>", file_browser, { desc = "File browser" })
+      keymap.set("n", ":", "<cmd>Telescope cmdline<CR>", { desc = "Command line" })
+    end,
+  },
+  --VIM: TREESITTER
+  {
+    "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPre", "BufNewFile" },
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = {
+          "vimdoc",
+          "angular",
+          "html",
+          "css",
+          "scss",
+          "javascript",
+          "typescript",
+          "lua",
+          "c_sharp",
+          "rust",
+          "sql",
+          "json",
+          "http",
+        },
+        highlight = {
+          enable = true,
+        },
+        indent = {
+          enable = true,
+        },
+        -- enable autotagging (w/ nvim-ts-autotag plugin)
+        autotag = {
+          enable = true,
+        },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "<C-space>",
+            node_incremental = "<C-space>",
+            scope_incremental = false,
+            node_decremental = "<bs>",
+          },
+        },
+      })
+    end,
+  },
+  --VIM: CMP
+  {
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    dependencies = {
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "saadparwaiz1/cmp_luasnip",
+      "rafamadriz/friendly-snippets",
+      "onsails/lspkind.nvim",
+      { "L3MON4D3/LuaSnip", version = "*" },
+    },
+    config = function()
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
+      local lspkind = require("lspkind")
 
-								local type = ""
-								if picker.prompt_title == "Find Files" then
-									type = "find_files"
-								elseif picker.prompt_title == "Buffers" then
-									type = "buffers"
-								end
+      require("luasnip.loaders.from_vscode").lazy_load()
 
-								if type ~= "" then
-									require("telescope.actions").close(prompt_bufnr)
-									require("telescope.builtin")[type](opts)
-								end
-							end,
-						},
-					},
-				},
-				extensions = {
-					file_browser = {
-						mappings = {
-							n = {
-								["<c-b>"] = require("telescope._extensions.file_browser.actions").goto_parent_dir,
-								["<c-r>"] = require("telescope._extensions.file_browser.actions").goto_cwd,
-								["<c-h>"] = require("telescope._extensions.file_browser.actions").toggle_hidden,
-								["<c-f>"] = require("telescope._extensions.file_browser.actions").toggle_browser,
-							},
-						},
-					},
-					cmdline = {
-						picker = {
-							initial_mode = "insert",
-							layout_config = {
-								height = 12,
-							},
-						},
-					},
-				},
-			})
+      cmp.setup({
+        completion = {
+          completeopt = "menu,menuone,preview,noinsert,noselect",
+        },
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ["<C-k>"] = cmp.mapping.select_prev_item(),
+          ["<C-j>"] = cmp.mapping.select_next_item(),
+          ["<A-k>"] = cmp.mapping.scroll_docs(-4),
+          ["<A-j>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm({ select = false }),
+        }),
 
-			pcall(require("telescope").load_extension, "fzf")
-			pcall(require("telescope").load_extension, "file_browser")
-			pcall(require("telescope").load_extension, "cmdline")
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "buffer" },
+          { name = "path" },
+        }),
 
-			local keymap = vim.keymap
-			local file_browser = "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>"
-			keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<CR>", { desc = "Find keymaps" })
-			keymap.set("n", "<leader><leader>", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
-			keymap.set("n", "<leader><tab>", "<cmd>Telescope buffers<CR>", { desc = "Find buffers" })
-			keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", { desc = "Find Grep" })
-			keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<CR>", { desc = "Find diagnostics" })
-			keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
-			keymap.set("n", "<leader>t", "<cmd>Telescope colorscheme<cr>", { desc = "Find themes" })
-			keymap.set("n", "<tab>", file_browser, { desc = "File browser" })
-			keymap.set("n", ":", "<cmd>Telescope cmdline<CR>", { desc = "Command line" })
-		end,
-	},
-	--VIM: TREESITTER
-	{
-		"nvim-treesitter/nvim-treesitter",
-		event = { "BufReadPre", "BufNewFile" },
-		build = ":TSUpdate",
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = {
-					"vimdoc",
-					"angular",
-					"html",
-					"css",
-					"scss",
-					"javascript",
-					"typescript",
-					"lua",
-					"c_sharp",
-					"rust",
-					"sql",
-					"json",
-					"http",
-				},
-				highlight = {
-					enable = true,
-				},
-				indent = {
-					enable = true,
-				},
-				-- enable autotagging (w/ nvim-ts-autotag plugin)
-				autotag = {
-					enable = true,
-				},
-				incremental_selection = {
-					enable = true,
-					keymaps = {
-						init_selection = "<C-space>",
-						node_incremental = "<C-space>",
-						scope_incremental = false,
-						node_decremental = "<bs>",
-					},
-				},
-			})
-		end,
-	},
-	--VIM: CMP
-	{
-		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
-		dependencies = {
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"saadparwaiz1/cmp_luasnip",
-			"rafamadriz/friendly-snippets",
-			"onsails/lspkind.nvim",
-			{ "L3MON4D3/LuaSnip", version = "*" },
-		},
-		config = function()
-			local cmp = require("cmp")
-			local luasnip = require("luasnip")
-			local lspkind = require("lspkind")
+        formatting = {
+          format = lspkind.cmp_format({
+            maxwidth = 50,
+            ellipsis_char = "...",
+          }),
+        },
+      })
+    end,
+  },
+  --VIM: LSP
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      { "antosha417/nvim-lsp-file-operations", config = true },
+      { "folke/neodev.nvim",                   opts = {} },
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
+    },
+    config = function()
+      local lspconfig = require("lspconfig")
+      local mason = require("mason")
+      local mason_tool_installer = require("mason-tool-installer")
+      local mason_lspconfig = require("mason-lspconfig")
+      local cmp_nvim_lsp = require("cmp_nvim_lsp")
+      local keymap = vim.keymap
 
-			require("luasnip.loaders.from_vscode").lazy_load()
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+        callback = function(ev)
+          local opts = { buffer = ev.buf, silent = true }
 
-			cmp.setup({
-				completion = {
-					completeopt = "menu,menuone,preview,noinsert,noselect",
-				},
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-k>"] = cmp.mapping.select_prev_item(),
-					["<C-j>"] = cmp.mapping.select_next_item(),
-					["<A-k>"] = cmp.mapping.scroll_docs(-4),
-					["<A-j>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<C-e>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = false }),
-				}),
+          local diagnostics_visible = true
+          function ToggleDiagnostics()
+            diagnostics_visible = not diagnostics_visible
+            if diagnostics_visible then
+              vim.diagnostic.enable()
+            else
+              vim.diagnostic.enable(false)
+            end
+          end
 
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					{ name = "buffer" },
-					{ name = "path" },
-				}),
+          -- set keybinds
+          opts.desc = "Show LSP references"
+          keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 
-				formatting = {
-					format = lspkind.cmp_format({
-						maxwidth = 50,
-						ellipsis_char = "...",
-					}),
-				},
-			})
-		end,
-	},
-	--VIM: LSP
-	{
-		"neovim/nvim-lspconfig",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			{ "antosha417/nvim-lsp-file-operations", config = true },
-			{ "folke/neodev.nvim", opts = {} },
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
-		},
-		config = function()
-			local lspconfig = require("lspconfig")
-			local mason = require("mason")
-			local mason_tool_installer = require("mason-tool-installer")
-			local mason_lspconfig = require("mason-lspconfig")
-			local cmp_nvim_lsp = require("cmp_nvim_lsp")
-			local keymap = vim.keymap
+          opts.desc = "Go to declaration"
+          keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
 
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-				callback = function(ev)
-					local opts = { buffer = ev.buf, silent = true }
+          opts.desc = "Show LSP definitions"
+          keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
 
-					local diagnostics_visible = true
-					function ToggleDiagnostics()
-						diagnostics_visible = not diagnostics_visible
-						if diagnostics_visible then
-							vim.diagnostic.enable()
-						else
-							vim.diagnostic.enable(false)
-						end
-					end
+          opts.desc = "Show LSP implementations"
+          keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 
-					-- set keybinds
-					opts.desc = "Show LSP references"
-					keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+          opts.desc = "Show LSP type definitions"
+          keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
 
-					opts.desc = "Go to declaration"
-					keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
+          opts.desc = "Show document symbols"
+          keymap.set("n", "<leader>sd", require("telescope.builtin").lsp_document_symbols, opts) -- show lsp type definitions
 
-					opts.desc = "Show LSP definitions"
-					keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
+          opts.desc = "See available code actions"
+          keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
 
-					opts.desc = "Show LSP implementations"
-					keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+          opts.desc = "Smart rename"
+          keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
-					opts.desc = "Show LSP type definitions"
-					keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
+          opts.desc = "Show buffer diagnostics"
+          keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 
-					opts.desc = "Show document symbols"
-					keymap.set("n", "<leader>sd", require("telescope.builtin").lsp_document_symbols, opts) -- show lsp type definitions
+          opts.desc = "Show line diagnostics"
+          keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
-					opts.desc = "See available code actions"
-					keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
+          opts.desc = "Hide diagnostic"
+          keymap.set("n", "<leader>dt", "<cmd>lua ToggleDiagnostics()<CR>", opts) -- show documentation for what is under cursor
 
-					opts.desc = "Smart rename"
-					keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
+          opts.desc = "Go to previous diagnostic"
+          keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
 
-					opts.desc = "Show buffer diagnostics"
-					keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+          opts.desc = "Go to next diagnostic"
+          keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
 
-					opts.desc = "Show line diagnostics"
-					keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+          opts.desc = "Show documentation for what is under cursor"
+          keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
-					opts.desc = "Hide diagnostic"
-					keymap.set("n", "<leader>dt", "<cmd>lua ToggleDiagnostics()<CR>", opts) -- show documentation for what is under cursor
+          opts.desc = "Restart LSP"
+          keymap.set("n", "<leader>rs", "<cmd>LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+        end,
+      })
 
-					opts.desc = "Go to previous diagnostic"
-					keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+      mason.setup({
+        ui = {
+          icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗",
+          },
+        },
+      })
 
-					opts.desc = "Go to next diagnostic"
-					keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+      mason_lspconfig.setup({
+        ensure_installed = {
+          "angularls",
+          "ts_ls",
+          "html",
+          "cssls",
+          "tailwindcss",
+          "lua_ls",
+          "emmet_ls",
+          "rust_analyzer",
+          "omnisharp",
+        },
+      })
 
-					opts.desc = "Show documentation for what is under cursor"
-					keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+      mason_tool_installer.setup({
+        ensure_installed = {
+          "prettier",
+          "stylua",
+          "eslint_d",
+        },
+      })
 
-					opts.desc = "Restart LSP"
-					keymap.set("n", "<leader>rs", "<cmd>LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-				end,
-			})
-
-			mason.setup({
-				ui = {
-					icons = {
-						package_installed = "✓",
-						package_pending = "➜",
-						package_uninstalled = "✗",
-					},
-				},
-			})
-
-			mason_lspconfig.setup({
-				ensure_installed = {
-					"angularls",
-					"ts_ls",
-					"html",
-					"cssls",
-					"tailwindcss",
-					"lua_ls",
-					"emmet_ls",
-					"rust_analyzer",
-					"omnisharp",
-				},
-			})
-
-			mason_tool_installer.setup({
-				ensure_installed = {
-					"prettier",
-					"stylua",
-					"eslint_d",
-				},
-			})
-
-			local capabilities = cmp_nvim_lsp.default_capabilities()
-			mason_lspconfig.setup_handlers({
-				function(server_name)
-					lspconfig[server_name].setup({
-						capabilities = capabilities,
-					})
-				end,
-				["emmet_ls"] = function()
-					lspconfig["emmet_ls"].setup({
-						capabilities = capabilities,
-						filetypes = {
-							"html",
-							"typescript",
-							"javascript",
-							"typescriptreact",
-							"javascriptreact",
-							"css",
-							"sass",
-							"scss",
-							"less",
-						},
-					})
-				end,
-				["lua_ls"] = function()
-					lspconfig["lua_ls"].setup({
-						capabilities = capabilities,
-						settings = {
-							Lua = {
-								diagnostics = {
-									globals = { "vim" },
-								},
-								completion = {
-									callSnippet = "Replace",
-								},
-							},
-						},
-					})
-				end,
-			})
-		end,
-	},
-	{
-		"mfussenegger/nvim-dap",
-		config = function()
-			local keymap = vim.keymap
-			keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<CR>", { desc = "Find keymaps" })
-		end,
-	},
-	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
+      local capabilities = cmp_nvim_lsp.default_capabilities()
+      mason_lspconfig.setup_handlers({
+        function(server_name)
+          lspconfig[server_name].setup({
+            capabilities = capabilities,
+          })
+        end,
+        ["emmet_ls"] = function()
+          lspconfig["emmet_ls"].setup({
+            capabilities = capabilities,
+            filetypes = {
+              "html",
+              "typescript",
+              "javascript",
+              "typescriptreact",
+              "javascriptreact",
+              "css",
+              "sass",
+              "scss",
+              "less",
+            },
+          })
+        end,
+        ["lua_ls"] = function()
+          lspconfig["lua_ls"].setup({
+            capabilities = capabilities,
+            settings = {
+              Lua = {
+                diagnostics = {
+                  globals = { "vim" },
+                },
+                completion = {
+                  callSnippet = "Replace",
+                },
+              },
+            },
+          })
+        end,
+      })
+    end,
+  },
+  {
+    "mfussenegger/nvim-dap",
+    config = function()
+      local keymap = vim.keymap
+      keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<CR>", { desc = "Find keymaps" })
+    end,
+  },
+  { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
 }

@@ -36,17 +36,25 @@ g.maplocalleader = " "
 o.number = true
 o.relativenumber = false
 
-keymap.set("n", "<A-a>", "<cmd>bprev<CR>", { desc = "Go to previous buffer" })
-keymap.set("n", "<A-s>", "<cmd>bnext<CR>", { desc = "Go to next buffer" })
-keymap.set("n", "<A-q>", "<cmd>bd<CR>", { desc = "Close buffer" })
-keymap.set("n", "<A-q>q", "<cmd>bd!<CR>", { desc = "Close buffer force" })
-keymap.set("n", "<A-q>s", "<cmd>close<CR>", { desc = "Close buffer force" })
+-- keymap.set("n", "<A-a>", "<cmd>bprev<CR>", { desc = "Go to previous buffer" })
+-- keymap.set("n", "<A-s>", "<cmd>bnext<CR>", { desc = "Go to next buffer" })
+
+keymap.set("n", "<A-q>", "<C-w>c<CR>", { desc = "Close split" })
+keymap.set("n", "<A-q>a", "<C-w>o<CR>", { desc = "Close all splits" })
+keymap.set("n", "<A-q>q", "<cmd>bd!<CR>", { desc = "Close buffer" })
+keymap.set("n", "<A-q>A", "<cmd>bufdo bd<CR>", { desc = "Close all buffer" })
+
 keymap.set("n", "<A-1>", "<cmd>vsplit<CR>", { desc = "Split vertically" })
 keymap.set("n", "<A-2>", "<cmd>split<CR>", { desc = "Split horizontally" })
+keymap.set("n", "<A-w>h", "<C-w>|<CR>", { desc = "Maximize horizontally" })
+keymap.set("n", "<A-w>v", "<C-w>_<CR>", { desc = "Maximize horizontally" })
+keymap.set("n", "<A-w>q", "<C-w>=<CR>", { desc = "Maximize horizontally" })
+
 keymap.set("n", "<A-h>", "<C-w>h", { desc = "Move to left buffer" })
 keymap.set("n", "<A-j>", "<C-w>j", { desc = "Move to bottom buffer" })
 keymap.set("n", "<A-k>", "<C-w>k", { desc = "Move to top buffer" })
 keymap.set("n", "<A-l>", "<C-w>l", { desc = "Move to right buffer" })
+
 keymap.set("n", "<A-e>e", "<cmd>qa!<CR>", { desc = "Close all buffers" })
 
 -- Highlight yanked text
@@ -78,4 +86,4 @@ require("lazy").setup("plugins", {
 	},
 })
 
-vim.api.nvim_command("colorscheme rose-pine-moon")
+vim.api.nvim_command("colorscheme moonfly")
