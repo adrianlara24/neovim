@@ -8,6 +8,19 @@ return {
 
       conform.setup({
         notify_on_error = true,
+        formatters_by_ft = {
+          javascript = { "prettier" },
+          typescript = { "prettier" },
+          html = { "prettier" },
+          css = { "prettier" },
+          json = { "prettier" },
+          yaml = { "prettier" },
+          markdown = { "prettier" },
+        },
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_fallback = true,
+        },
       })
 
       vim.keymap.set({ "n", "v" }, "<leader>cf", function()

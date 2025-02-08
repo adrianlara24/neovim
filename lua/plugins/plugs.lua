@@ -34,4 +34,20 @@ return {
       { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
     },
   },
+  --VIM: KULALA
+  {
+    'mistweaverco/kulala.nvim',
+    config = function()
+      local kulala = require('kulala');
+      kulala.setup({
+        default_view = 'verbose'
+      })
+      vim.keymap.set("n", "<leader>kr", "<cmd>lua require('kulala').run()<cr>")
+      vim.keymap.set("n", "<leader>kt", "<cmd>lua require('kulala').toggle_view()<cr>")
+      vim.keymap.set("n", "<leader>ki", "<cmd>lua require('kulala').inspect()<cr>")
+      vim.keymap.set("n", "<leader>kc", "<cmd>lua require('kulala').copy()<cr>")
+      vim.keymap.set("n", "<leader>ka", "<cmd>lua require('kulala').jump_prev()<cr>")
+      vim.keymap.set("n", "<leader>ks", "<cmd>lua require('kulala').jump_next()<cr>")
+    end
+  },
 }
