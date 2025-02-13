@@ -50,4 +50,11 @@ return {
       vim.keymap.set("n", "<leader>ks", "<cmd>lua require('kulala').jump_next()<cr>")
     end
   },
+  --VIM: SUPERMAVEN
+  {
+    "supermaven-inc/supermaven-nvim",
+    config = function()
+      require("supermaven-nvim").setup({})
+    end,
+  },
 }
