@@ -55,4 +55,23 @@ return {
       vim.keymap.set("n", "<leader>o", function() oil.open_float() end, { desc = "Open oil" })
     end,
   },
+  --VIM: SNIPE
+  {
+    "leath-dub/snipe.nvim",
+    config = function()
+      local snipe = require("snipe")
+      snipe.setup({
+        ui = {
+          position = "center",
+        },
+        navigate = {
+          cancel_snipe = "<esc>",
+          close_buffer = "D",
+          open_vsplit = "1",
+          open_split = "2",
+        },
+      })
+      vim.keymap.set("n", "<leader>s", snipe.open_buffer_menu, { desc = "Open snipe buffer menu" })
+    end
+  },
 }
