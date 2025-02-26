@@ -91,6 +91,7 @@ return {
         ensure_installed = {
           "vimdoc",
           "angular",
+          "svelte",
           "html",
           "css",
           "scss",
@@ -275,6 +276,7 @@ return {
       mason_lspconfig.setup({
         ensure_installed = {
           "angularls",
+          "svelte",
           "ts_ls",
           "html",
           "cssls",
