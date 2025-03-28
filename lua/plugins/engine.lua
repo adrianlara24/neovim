@@ -103,6 +103,8 @@ return {
           "sql",
           "json",
           "http",
+          "java",
+          "yaml",
         },
         highlight = {
           enable = true,
@@ -284,6 +286,7 @@ return {
           "lua_ls",
           "emmet_ls",
           "omnisharp",
+          "jdtls",
         },
       })
 

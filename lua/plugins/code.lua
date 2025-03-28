@@ -114,21 +114,6 @@ return {
       })
     end,
   },
-  --VIM: FLASH
-  {
-    "folke/flash.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    keys = {
-      {
-        "s",
-        mode = { "n", "x", "o" },
-        function()
-          require("flash").jump()
-        end,
-        desc = "Flash",
-      },
-    },
-  },
   --VIM: SELECT MULTILINE
   {
     "mg979/vim-visual-multi",

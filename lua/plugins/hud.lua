@@ -15,42 +15,6 @@ return {
       keymap.set("n", "<S-Tab>", "<cmd>NERDTreeToggle<CR>", { desc = "Toggle file explorer" })
     end,
   },
-  --VIM: LUALINE
-  {
-    "nvim-lualine/lualine.nvim",
-    event = "BufReadPre",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("lualine").setup({
-        options = {
-          component_separators = "",
-          globalstatus = false,
-          refresh = {
-            winbar = 100,
-          },
-        },
-
-        winbar = {
-          lualine_c = {
-            {
-              "filename",
-              color = { fg = "#eaeaea", gui = "bold", bg = "transparent" },
-              path = 1,
-            },
-          },
-        },
-        inactive_winbar = {
-          lualine_c = {
-            {
-              "filename",
-              color = { fg = "#eaeaea", gui = "bold", bg = "transparent" },
-              path = 1,
-            },
-          },
-        },
-      })
-    end,
-  },
   --VIM: MAXIMIZER
   {
     "folke/zen-mode.nvim",

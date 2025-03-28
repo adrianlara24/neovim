@@ -6,14 +6,13 @@ return {
       require("toggleterm").setup({
         open_mapping = [[<c-\>]],
         autochdir = true,
-        direction = "horizontal",
         hide_number = false,
-        shell = vim.o.shell,
+        shell = "pwsh.exe -NoExit -File C:\\Users\\adria\\Documents\\PowerShell\\Microsoft.PowerShell_profile.ps1",
         auto_scroll = true,
+        direction = "horizontal",
         on_create = function()
           local opts = { buffer = 0 }
           vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
-          vim.keymap.set("t", "jk", [[<C-\><C-n>]], opts)
           vim.keymap.set("t", "<a-h>", [[<Cmd>wincmd h<CR>]], opts)
           vim.keymap.set("t", "<a-j>", [[<Cmd>wincmd j<CR>]], opts)
           vim.keymap.set("t", "<a-k>", [[<Cmd>wincmd k<CR>]], opts)
@@ -57,4 +56,14 @@ return {
       require("supermaven-nvim").setup({})
     end,
   },
+  {
+    'nvim-java/nvim-java',
+    dependencies = {
+      "neovim/nvim-lspconfig",
+    },
+    config = function()
+      require('java').setup()
+      require('lspconfig').jdtls.setup({})
+    end
+  }
 }
