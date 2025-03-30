@@ -32,24 +32,33 @@ return {
     end
   },
   {
-    'echasnovski/mini.notify',
-    version = '*',
-    config = function()
-      require('mini.notify').setup({
-        lsp_progress = {
-          enable = true,
-          level = "INFO",
-          duration_last = 600,
-        }
-      })
-    end
-  },
-  {
     'echasnovski/mini.files',
     version = '*',
     config = function()
       require('mini.files').setup()
       vim.keymap.set('n', '<tab><tab>', '<cmd>lua MiniFiles.open()<cr>')
+    end
+  },
+  {
+    'echasnovski/mini.icons',
+    version = '*',
+    config = function()
+      require('mini.icons').setup()
+    end
+  },
+  { 'echasnovski/mini.pairs', version = '*',
+    config = function()
+      require('mini.pairs').setup()
+    end
+  },
+  { 
+    "echasnovski/mini.comment",
+    enabled = false,
+    dependencies = {
+      'rafamadriz/friendly-snippets',
+    },
+    config = function()
+      require('mini.completion').setup()
     end
   },
 }

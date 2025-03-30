@@ -35,6 +35,7 @@ return {
   --VIM: AUTO CLOSE PAIRS
   {
     "windwp/nvim-autopairs",
+    enabled = false,
     event = { "InsertEnter" },
     dependencies = {
       "hrsh7th/nvim-cmp",
