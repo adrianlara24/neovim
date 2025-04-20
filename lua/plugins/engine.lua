@@ -189,6 +189,7 @@ return {
 			scroll = { enabled = true },
 			zoom = { enabled = true },
 			lazygit = { enabled = true },
+			gitbrowse = { enabled = true },
 			statuscolumn = { enabled = true },
 			layout = { enabled = true },
 			terminal = { enabled = true, shell = "pwsh.exe" },

@@ -57,6 +57,7 @@ map("n", "<leader>gf", function() Snacks.picker.git_files() end, opts)
 map("n", "<leader>gG", function() Snacks.picker.git_grep() end, opts)
 map("n", "<leader>gl", function() Snacks.picker.git_log() end, opts)
 map("n", "<leader>gs", function() Snacks.picker.git_stash() end, opts)
+map("n", "<leader>go", function() Snacks.gitbrowse() end, opts)
 
 -- LSP
 map("n", "gn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
