@@ -45,7 +45,7 @@ map("n", "<tab>", function() Snacks.picker.explorer(quick_explorer_config) end, 
 map("n", "<s-tab>", function() Snacks.explorer() end, opts)
 
 -- SNACKS CONFIG
-map("n", "<leader>ot", function() Snacks.picker.colorschemes() end, opts)
+map("n", "<leader>oc", function() Snacks.picker.colorschemes({ layout = { preset = "vscode", preview = false } }) end, opts)
 map("n", "<leader>od", function() Snacks.picker.diagnostics() end, opts)
 map("n", "<leader>ok", function() Snacks.picker.keymaps() end, opts)
 
@@ -68,6 +68,7 @@ map("n", "gs", function() Snacks.picker.lsp_symbols() end, opts)
 map("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 
 -- MISC
+map("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
 map("n", "<leader>j", function() MiniJump2d.start() end, opts)
 map("n", "<leader>sr", "<cmd>SessionRestore<cr>", opts)
 map("n", "<leader>=", function() require("oil").open_float() end, opts)
