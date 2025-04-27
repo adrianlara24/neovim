@@ -17,14 +17,14 @@ opt.cursorline = true
 opt.autoindent = true
 opt.termguicolors = true
 opt.swapfile = false
+opt.fillchars:append({ eob = " " })
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-vim.o.number = false
+vim.o.number = true
 vim.o.relativenumber = false
 
--- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),

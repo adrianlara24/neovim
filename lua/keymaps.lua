@@ -45,7 +45,7 @@ map("n", "<tab>", function() Snacks.picker.explorer(quick_explorer_config) end, 
 map("n", "<s-tab>", function() Snacks.explorer() end, opts)
 
 -- SNACKS CONFIG
-map("n", "<leader>oc", function() Snacks.picker.colorschemes({ layout = { preset = "vscode", preview = false } }) end, opts)
+map("n", "<leader>oc", function() Snacks.picker.colorschemes({ layout = { preset = "select", preview = true } }) end, opts)
 map("n", "<leader>od", function() Snacks.picker.diagnostics() end, opts)
 map("n", "<leader>ok", function() Snacks.picker.keymaps() end, opts)
 
@@ -75,6 +75,7 @@ map("n", "<leader>sr", "<cmd>SessionRestore<cr>", opts)
 map("n", "<leader>=", function() require("oil").open_float() end, opts)
 map("n", "<c-]>", "<cmd>terminal pwsh.exe<cr>", opts)
 map("n", "<c-\\>", function() Snacks.terminal.toggle() end, opts)
+map("n", "<leader>tt", "<cmd>TransparentToggle<cr>", opts)
 
 -- KULALA
 map("n", "<leader>kr", "<cmd>lua require('kulala').run()<cr>")
