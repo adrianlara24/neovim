@@ -196,6 +196,7 @@ return {
 			statuscolumn = { enabled = true },
 			layout = { enabled = true },
 			terminal = { enabled = true, shell = "pwsh.exe" },
+      input = { enabled = true },
 		},
 	},
 }
