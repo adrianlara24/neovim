@@ -60,7 +60,7 @@ return {
 				"prettier",
 				"eslint_d",
 				"xmlformatter",
-        "google-java-format",
+				"google-java-format",
 			},
 		},
 	},
@@ -69,7 +69,13 @@ return {
 		dependencies = { "rafamadriz/friendly-snippets", "williamboman/mason-lspconfig.nvim" },
 		version = "1.*",
 		opts = {
-			keymap = { preset = "default" },
+			keymap = {
+				["<C-space>"] = { "show", "fallback" },
+				["<C-k>"] = { "select_prev", "fallback" },
+				["<C-j>"] = { "select_next", "fallback" },
+				["<C-l>"] = { "accept", "fallback" },
+				["<C-h>"] = { "cancel", "fallback" },
+			},
 			appearance = { nerd_font_variant = "mono" },
 			completion = { documentation = { auto_show = true } },
 			sources = {
@@ -162,7 +168,7 @@ return {
 				yaml = { "prettierd", "prettier", stop_after_first = true },
 				markdown = { "prettierd", "prettier", stop_after_first = true },
 				xml = { "xmlformatter" },
-        java = { "google-java-format" },
+				java = { "google-java-format" },
 			},
 		},
 	},
@@ -196,7 +202,7 @@ return {
 			statuscolumn = { enabled = true },
 			layout = { enabled = true },
 			terminal = { enabled = true, shell = "pwsh.exe" },
-      input = { enabled = true },
+			input = { enabled = true },
 		},
 	},
 }
