@@ -10,6 +10,9 @@ return {
 		end,
 	},
 	{ "mistweaverco/kulala.nvim", opts = { default_view = "verbose" } },
-	{ "xiyaowong/transparent.nvim", opts = { exclude_groups = { "Float", "StatusLine" } } },
+	{
+		"xiyaowong/transparent.nvim",
+		opts = { exclude_groups = { "Float", "StatusLine" } },
+	},
 	{ "supermaven-inc/supermaven-nvim", opts = {} },
 }

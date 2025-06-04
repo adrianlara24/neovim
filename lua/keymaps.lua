@@ -25,8 +25,9 @@ map("n", "<a-b><c-h>", "<cmd>bfirst<cr>", opts)
 map("n", "<a-b><a-j>", "<cmd>bprevious<cr>", opts)
 map("n", "<a-b><a-k>", "<cmd>bnext<cr>", opts)
 map("n", "<a-b><a-l>", "<cmd>blast<cr>", opts)
-map("n", "<a-b><a-q>", "<cmd>bd<cr>", opts)
-map("n", "<a-b><a-q>q", "<cmd>bd!<cr>", opts)
+map("n", "<a-b><a-q>", "<cmd>lua Snacks.bufdelete()<cr>", opts)
+map("n", "<a-b><a-a>", "<cmd>lua Snacks.bufdelete.all()<cr>", opts)
+map("n", "<a-b><a-o>", "<cmd>lua Snacks.bufdelete.other()<cr>", opts)
 map("n", "<a-t><a-n>", "<cmd>tabnew<cr>", opts)
 map("n", "<a-t><a-t>", "<cmd>tab split<cr>", opts)
 map("n", "<a-t><a-h>", "<cmd>tabfirst<cr>", opts)
@@ -40,8 +41,8 @@ map("n", "<a-e>e", "<cmd>qa!<cr>", opts)
 map("n", "<leader><space>", function() Snacks.picker.files(files_config) end, opts)
 map("n", "<leader>,", function() Snacks.picker.grep({ focus = 'input' }) end, opts)
 map("n", "<leader>.", function() Snacks.picker.grep_buffers({ focus = 'input' }) end, opts)
-map("n", "<leader><tab>", function() Snacks.picker.buffers({ layout = { preset = "vscode", preview = false } }) end, opts)
-map("n", "<tab>", function() Snacks.picker.explorer(quick_explorer_config) end, opts)
+map("n", "<leader><tab>", function() Snacks.picker.explorer(quick_explorer_config) end, opts)
+map("n", "<tab>", function() Snacks.picker.buffers({ layout = { preset = "vscode", preview = false } }) end, opts)
 map("n", "<s-tab>", function() Snacks.explorer() end, opts)
 
 -- SNACKS CONFIG
@@ -97,5 +98,34 @@ vim.api.nvim_create_autocmd("User", {
     Snacks.toggle.option("background", { off = "dark", on = "light" }):map("<s-b>")
     Snacks.toggle.indent():map("<s-i>")
     Snacks.toggle.dim():map("<s-m>")
+    Snacks.toggle({
+      name = "Maven",
+      get = function()
+        return vim.g.supermaven_enabled ~= false
+      end,
+      set = function(started)
+        if started then
+          vim.cmd("SupermavenStart")
+          vim.g.supermaven_enabled = true
+        else
+          vim.cmd("SupermavenStop") 
+          vim.g.supermaven_enabled = false
+        end
+      end,
+    }):map("<s-a>")
+    Snacks.toggle({
+      name = "!Transparency",
+      get = function()
+        return vim.g.transparent_toggle_state ~= false
+      end,
+      set = function(enabled)
+        vim.g.transparent_toggle_state = enabled
+        if enabled then
+          vim.cmd("TransparentDisable")
+        else
+          vim.cmd("TransparentEnable")
+        end
+      end,
+    }):map("<s-t>")
   end,
 })
