@@ -28,12 +28,12 @@ return {
 		end,
 	},
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		opts = {},
 	},
 	{
-		"williamboman/mason-lspconfig.nvim",
-		dependencies = { "williamboman/mason.nvim" },
+		"mason-org/mason-lspconfig.nvim",
+		dependencies = { "mason-org/mason.nvim" },
 		opts = {
 			ensure_installed = {
 				"ts_ls",
@@ -48,11 +48,12 @@ return {
 				"jdtls",
 				"lemminx",
 			},
+			automatic_enable = true,
 		},
 	},
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		dependencies = { "williamboman/mason.nvim" },
+		dependencies = { "mason-org/mason.nvim" },
 		opts = {
 			ensure_installed = {
 				"stylua",
@@ -90,68 +91,62 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = { "saghen/blink.cmp" },
 		config = function()
-			local lspconfig = require("lspconfig")
-			local mason_lspconfig = require("mason-lspconfig")
-			local capabilities = require("blink.cmp").get_lsp_capabilities()
-			mason_lspconfig.setup_handlers({
-				function(server_name)
-					lspconfig[server_name].setup({
-						capabilities = capabilities,
-					})
-				end,
 
-				["cssls"] = function()
-					lspconfig["cssls"].setup({
-						capabilities = capabilities,
-					})
-				end,
-				["angularls"] = function()
-					lspconfig["angularls"].setup({
-						capabilities = capabilities,
-					})
-				end,
-				["ts_ls"] = function()
-					lspconfig["ts_ls"].setup({
-						capabilities = capabilities,
-					})
-				end,
-				["lemminx"] = function()
-					lspconfig["lemminx"].setup({
-						capabilities = capabilities,
-					})
-				end,
-				["emmet_ls"] = function()
-					lspconfig["emmet_ls"].setup({
-						capabilities = capabilities,
-						filetypes = {
-							"html",
-							"typescript",
-							"javascript",
-							"typescriptreact",
-							"javascriptreact",
-							"css",
-							"sass",
-							"scss",
-							"less",
+			vim.lsp.config["emmet_ls"] = {
+				cmd = { "emmet-ls", "--stdio" },
+				filetypes = {
+					"html",
+					"vue",
+					"javascript",
+					"typescript",
+					"svelte",
+				},
+			}
+
+			vim.lsp.config["angularls"] = {
+				cmd = { "angularls", "--stdio" },
+				filetypes = {
+					"html",
+					"javascript",
+					"typescript",
+				},
+			}
+
+			vim.lsp.config["html"] = {
+				cmd = { "html-languageserver", "--stdio" },
+				filetypes = {
+					"html",
+					"javascript",
+					"typescript",
+					"svelte",
+				},
+			}
+
+			vim.lsp.config["cssls"] = {
+				cmd = { "css-languageserver", "--stdio" },
+				filetypes = {
+					"html",
+					"css",
+					"scss",
+					"less",
+					"vue",
+					"javascript",
+					"typescript",
+					"svelte",
+				},
+			}
+
+			vim.lsp.config["lua_ls"] = {
+				cmd = { "lua-language-server", "--stdio" },
+				filetypes = { "lua" },
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
 						},
-					})
-				end,
-				["lua_ls"] = function()
-					lspconfig["lua_ls"].setup({
-						capabilities = capabilities,
-						settings = {
-							Lua = {
-								diagnostics = {
-									globals = { "vim", "Snacks", "MiniJump2d" },
-								},
-								completion = {
-									callSnippet = "Replace",
-								},
-							},
-						},
-					})
-				end,
-			})
+					},
+				},
+			}
 		end,
 	},
 	{
