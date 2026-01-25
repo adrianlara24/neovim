@@ -7,6 +7,7 @@ return {
 		"scss",
 		"javascript",
 		"typescript",
+		"tsx",
 		"lua",
 		"json",
 		"yaml",
@@ -31,7 +32,9 @@ return {
 	formatters = {
 		lua = { "stylua" },
 		javascript = { "biome", "prettierd", "prettier", "eslint_d", stop_after_first = true },
+		javascriptreact = { "biome", "prettierd", "prettier", "eslint_d", stop_after_first = true },
 		typescript = { "biome", "prettierd", "prettier", "eslint_d", stop_after_first = true },
+		typescriptreact = { "biome", "prettierd", "prettier", "eslint_d", stop_after_first = true },
 		css = { "biome", "prettierd", "prettier", stop_after_first = true },
 		scss = { "biome", "prettierd", "prettier", stop_after_first = true },
 		html = { "prettierd", "prettier", stop_after_first = true },

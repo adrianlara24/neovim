@@ -25,6 +25,18 @@ vim.g.maplocalleader = " "
 vim.o.number = true
 vim.o.relativenumber = false
 
+local severity = vim.diagnostic.severity
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [severity.ERROR] = "󰅚",
+      [severity.WARN] = "󰀪",
+      [severity.HINT] = "󱐋",
+      [severity.INFO] = "󰋽",
+    }
+  }
+})
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
