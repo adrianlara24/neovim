@@ -73,10 +73,9 @@ map("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 map("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
 map("n", "<leader>j", function() MiniJump2d.start() end, opts)
 map("n", "<leader>sr", "<cmd>SessionRestore<cr>", opts)
-map("n", "<leader>=", function() require("oil").open_float() end, opts)
+map("n", "<leader>-", function() require("oil").open_float() end, opts)
 map("n", "<c-]>", "<cmd>terminal pwsh.exe<cr>", opts)
 map("n", "<c-\\>", function() Snacks.terminal.toggle() end, opts)
-map("n", "<leader>tt", "<cmd>TransparentToggle<cr>", opts)
 
 -- KULALA
 map("n", "<leader>kr", "<cmd>lua require('kulala').run()<cr>")
@@ -98,34 +97,5 @@ vim.api.nvim_create_autocmd("User", {
     Snacks.toggle.option("background", { off = "dark", on = "light" }):map("<s-b>")
     Snacks.toggle.indent():map("<s-i>")
     Snacks.toggle.dim():map("<s-m>")
-    Snacks.toggle({
-      name = "Maven",
-      get = function()
-        return vim.g.supermaven_enabled ~= false
-      end,
-      set = function(started)
-        if started then
-          vim.cmd("SupermavenStart")
-          vim.g.supermaven_enabled = true
-        else
-          vim.cmd("SupermavenStop") 
-          vim.g.supermaven_enabled = false
-        end
-      end,
-    }):map("<s-a>")
-    Snacks.toggle({
-      name = "!Transparency",
-      get = function()
-        return vim.g.transparent_toggle_state ~= false
-      end,
-      set = function(enabled)
-        vim.g.transparent_toggle_state = enabled
-        if enabled then
-          vim.cmd("TransparentDisable")
-        else
-          vim.cmd("TransparentEnable")
-        end
-      end,
-    }):map("<s-t>")
   end,
 })

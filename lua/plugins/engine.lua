@@ -3,10 +3,11 @@ local servers = require("servers")
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
+    branch = "master",
 		lazy = false,
 		build = ":TSUpdate",
 		config = function()
-			require("nvim-treesitter.config").setup({
+			require("nvim-treesitter.configs").setup({
 				ensure_installed = servers.treesitter,
 				highlight = { enable = true },
 				indent = { enable = true },
@@ -67,7 +68,16 @@ return {
 	{ "echasnovski/mini.comment", version = "*", opts = {} },
 	{ "echasnovski/mini.pairs", version = "*", opts = {} },
 	{ "echasnovski/mini.icons", version = "*", opts = {} },
-	{ "echasnovski/mini.statusline", version = "*", opts = {} },
+	{
+		"echasnovski/mini.statusline",
+		version = "*",
+		opts = { set_vim_settings = false },
+		config = function(_, opts)
+			require("mini.statusline").setup(opts)
+			vim.o.laststatus = 0
+			vim.o.winbar = "%{%v:lua.MiniStatusline.active()%}"
+		end,
+	},
 	{ "echasnovski/mini.jump2d", version = "*", opts = { mappings = { start_jumping = "<c-a>" } } },
 	{ "rmagatti/auto-session", version = "*", opts = { auto_restore_enabled = false } },
 	{
