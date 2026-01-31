@@ -69,13 +69,15 @@ map("n", "gi", function() Snacks.picker.lsp_implementations() end, opts)
 map("n", "gs", function() Snacks.picker.lsp_symbols() end, opts)
 map("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 
+-- TERMINAL
+map("n", "<c-]>", "<cmd>terminal pwsh.exe<cr>", opts)
+map("n", "<c-\\>", function() Snacks.terminal.toggle() end, opts)
+
 -- MISC
 map("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
 map("n", "<leader>j", function() MiniJump2d.start() end, opts)
 map("n", "<leader>sr", "<cmd>SessionRestore<cr>", opts)
 map("n", "<leader>-", function() require("oil").open_float() end, opts)
-map("n", "<c-]>", "<cmd>terminal pwsh.exe<cr>", opts)
-map("n", "<c-\\>", function() Snacks.terminal.toggle() end, opts)
 
 -- KULALA
 map("n", "<leader>kr", "<cmd>lua require('kulala').run()<cr>")
