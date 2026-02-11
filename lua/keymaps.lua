@@ -119,10 +119,10 @@ map("n", "gs", function() Snacks.picker.lsp_symbols() end, opts)
 map("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 
 -- TERMINAL
-map({ "n", "t" }, "<leader>`", toggle_terminals, opts)
-map({ "n", "t" }, "<leader>~", create_terminal, opts)
-map({ "n", "t" }, "<leader>t", toggle_modal_terminal, opts)
-map("t", "<esc><esc>", "<c-\\><c-n>", opts)
+map({ "n", "t" }, "<leader>tt", toggle_terminals, opts)
+map({ "n", "t" }, "<leader>tn", create_terminal, opts)
+map({ "n", "t" }, "<leader>tm", toggle_modal_terminal, opts)
+map("t", "<leader>te", "<c-\\><c-n>", opts)
 
 -- MISC
 map("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
