@@ -1,66 +1,6 @@
+local fn = require("functions")
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true, }
-local files_config = { focus = 'input', preview = false, layout = { preset = 'vscode' }, }
-local quick_explorer_config = {
-  title = 'Quick Explorer',
-  replace_netrw = false,
-  layout = { preset = 'vscode' },
-  formatters = {
-    file = { git_status_hl = false, },
-  },
-  diagnostics = false,
-  git_status = false,
-  auto_close = true,
-}
-local terminals = {}
-local terminals_visible = false
-local modal_terminal = nil
-
-local function create_terminal()
-  local term = Snacks.terminal.open()
-  table.insert(terminals, term)
-  terminals_visible = true
-  return term
-end
-
-local function hide_all_terminals()
-  for _, term in ipairs(terminals) do
-    if term:buf_valid() then term:hide() end
-  end
-  terminals_visible = false
-end
-
-local function show_all_terminals()
-  local has_valid = false
-  for _, term in ipairs(terminals) do
-    if term:buf_valid() then
-      term:show()
-      has_valid = true
-    end
-  end
-  if not has_valid then create_terminal() end
-  terminals_visible = true
-end
-
-local function toggle_terminals()
-  if #terminals == 0 then
-    create_terminal()
-    return
-  end
-  if terminals_visible then hide_all_terminals() else show_all_terminals() end
-end
-
-local function toggle_modal_terminal()
-  if modal_terminal and modal_terminal:buf_valid() then
-    if modal_terminal:win_valid() then
-      modal_terminal:hide()
-    else
-      modal_terminal:show()
-    end
-  else
-    modal_terminal = Snacks.terminal.open(nil, { win = { position = "float" } })
-  end
-end
 
 -- CORE
 map("n", "<a-a>", "<cmd>vsplit<cr>", opts)
@@ -87,10 +27,10 @@ map("n", "<a-t><a-q>", "<cmd>tabclose<cr>", opts)
 map("n", "<a-e>e", "<cmd>qa!<cr>", opts)
 
 -- SNACKS FINDERS
-map("n", "<leader><space>", function() Snacks.picker.files(files_config) end, opts)
+map("n", "<leader><space>", function() Snacks.picker.files(fn.explorer_files) end, opts)
 map("n", "<leader>,", function() Snacks.picker.grep({ focus = 'input' }) end, opts)
 map("n", "<leader>.", function() Snacks.picker.grep_buffers({ focus = 'input' }) end, opts)
-map("n", "<leader><tab>", function() Snacks.picker.explorer(quick_explorer_config) end, opts)
+map("n", "<leader><tab>", function() Snacks.picker.explorer(fn.explorer_quick) end, opts)
 map("n", "<tab>", function() Snacks.picker.buffers({ layout = { preset = "vscode", preview = false } }) end, opts)
 map("n", "<s-tab>", function() Snacks.explorer() end, opts)
 
@@ -119,10 +59,10 @@ map("n", "gs", function() Snacks.picker.lsp_symbols() end, opts)
 map("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 
 -- TERMINAL
-map({ "n", "t" }, "<leader>tt", toggle_terminals, opts)
-map({ "n", "t" }, "<leader>tn", create_terminal, opts)
-map({ "n", "t" }, "<leader>tm", toggle_modal_terminal, opts)
-map("t", "<leader>te", "<c-\\><c-n>", opts)
+map({ "n", "t" }, "<leader>tt", fn.terminal_toggle, opts)
+map({ "n", "t" }, "<leader>tn", fn.terminal_create, opts)
+map({ "n", "t" }, "<leader>tm", fn.terminal_toggle_modal, opts)
+map("t", "<leader>tb", "<c-\\><c-n>", opts)
 
 -- MISC
 map("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
