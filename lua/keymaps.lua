@@ -12,6 +12,42 @@ local quick_explorer_config = {
   git_status = false,
   auto_close = true,
 }
+local terminals = {}
+local terminals_visible = false
+
+local function create_terminal()
+  local term = Snacks.terminal.open()
+  table.insert(terminals, term)
+  terminals_visible = true
+  return term
+end
+
+local function hide_all_terminals()
+  for _, term in ipairs(terminals) do
+    if term:buf_valid() then term:hide() end
+  end
+  terminals_visible = false
+end
+
+local function show_all_terminals()
+  local has_valid = false
+  for _, term in ipairs(terminals) do
+    if term:buf_valid() then
+      term:show()
+      has_valid = true
+    end
+  end
+  if not has_valid then create_terminal() end
+  terminals_visible = true
+end
+
+local function toggle_terminals()
+  if #terminals == 0 then
+    create_terminal()
+    return
+  end
+  if terminals_visible then hide_all_terminals() else show_all_terminals() end
+end
 
 -- CORE
 map("n", "<a-a>", "<cmd>vsplit<cr>", opts)
@@ -70,8 +106,9 @@ map("n", "gs", function() Snacks.picker.lsp_symbols() end, opts)
 map("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 
 -- TERMINAL
-map("n", "<c-]>", "<cmd>terminal pwsh.exe<cr>", opts)
-map("n", "<c-\\>", function() Snacks.terminal.toggle() end, opts)
+map({ "n", "t" }, "<leader>`", toggle_terminals, opts)
+map({ "n", "t" }, "<leader>~", create_terminal, opts)
+map("t", "<esc><esc>", "<c-\\><c-n>", opts)
 
 -- MISC
 map("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
