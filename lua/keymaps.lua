@@ -14,6 +14,7 @@ local quick_explorer_config = {
 }
 local terminals = {}
 local terminals_visible = false
+local modal_terminal = nil
 
 local function create_terminal()
   local term = Snacks.terminal.open()
@@ -47,6 +48,18 @@ local function toggle_terminals()
     return
   end
   if terminals_visible then hide_all_terminals() else show_all_terminals() end
+end
+
+local function toggle_modal_terminal()
+  if modal_terminal and modal_terminal:buf_valid() then
+    if modal_terminal:win_valid() then
+      modal_terminal:hide()
+    else
+      modal_terminal:show()
+    end
+  else
+    modal_terminal = Snacks.terminal.open(nil, { win = { position = "float" } })
+  end
 end
 
 -- CORE
@@ -108,6 +121,7 @@ map("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 -- TERMINAL
 map({ "n", "t" }, "<leader>`", toggle_terminals, opts)
 map({ "n", "t" }, "<leader>~", create_terminal, opts)
+map({ "n", "t" }, "<leader>t", toggle_modal_terminal, opts)
 map("t", "<esc><esc>", "<c-\\><c-n>", opts)
 
 -- MISC
